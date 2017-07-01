@@ -1,0 +1,36 @@
+form#login,
+form#logout
+{
+	margin-left: 5px;
+}
+
+label#user_label
+{
+	border-radius: 3px;
+}
+
+.login_hidden
+{
+	visibility: hidden;
+}
+
+.login_visible
+{
+	visibility: visible;
+}
+
+input#login_submit,
+input#logout_submit
+{
+	float: right;
+}
+
+div#username_div,
+div#password_div
+{
+	margin-bottom: 5px;
+}
+input.userName
+{
+	float: right;
+}

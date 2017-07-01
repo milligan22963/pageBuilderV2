@@ -1,0 +1,25 @@
+section#menu_content_box
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: flex;	
+	flex-direction: column;
+	justify-content: center;
+}
+
+label#menu_title
+{
+	text-align: center;
+	background: lightgrey;
+	border-radius: 5px;
+	margin: 4px;
+}
+
+div.menu
+{
+	margin: 8px;
+	flex: 1 20%;
+	background: lightgrey;
+	height: auto;
+	padding-left: 4px;
+}

@@ -1,0 +1,54 @@
+body
+{
+    background-color: #ffffff;
+}
+
+header#header_section,
+footer#footer_section
+{
+	margin: auto;
+	padding: 10px;
+	border-radius: 3px;
+	box-shadow: 0px 0px 3px 3px black;
+	text-align: center;
+}
+
+label#header_label
+{
+	text-align: center;
+}
+
+label.header
+{
+	padding: 5px;
+}
+
+section#main_content_box
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: flex;	
+	flex-direction: row;
+	justify-content: center;
+}
+
+aside#main_aside,
+aside#main_menu
+{
+	flex: 1 20%;
+	background: aqua;
+}
+aside#main_aside
+{
+	margin-right: 5px;
+}
+aside#main_menu
+{
+	margin-left: 5px;
+}
+section#main_content
+{
+	flex: 1 80%;
+	background: white;
+	width: auto;
+}

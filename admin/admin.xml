@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:admin xmlns:p="http://www.afmsoftware.com/admin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.afmsoftware.com/admin ./admin.xsd ">
+  <p:module title="Registration" option="register" code="register.php" class="afm\RegisterUser" js="js/register.js" enabled="true" visibility="all"/>
+  <p:module title="Manage Themes" option="theme" code="ManageThemes.php" class="afm\ManageThemes" js="js/themes.js" enabled="true" visibility="admin"/>
+  <p:module title="Manage Extensions" option="extension" code="ManageExtensions.php" class="afm\ManageExtensions" js="js/extensions.js" enabled="true" visibility="admin"/>
+  <p:module title="Site Settings" option="settings" code="ManageSettings.php" class="afm\ManageSettings" js="js/settings.js" enabled="true" visibility="admin"/>
+</p:admin>

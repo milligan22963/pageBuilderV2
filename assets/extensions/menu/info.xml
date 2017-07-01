@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmExtension>
+  <extension name="Simple Menu" version="1.0.0.0" requires="1.0.0.0">
+	  <description>
+		  A simple menu widget for the system.
+	  </description>
+	  <code name="menu.php" class="MenuWidget">
+		  <settings>
+		  </settings>
+	  </code>
+	  <author name="AFM Software" website="www.afmsoftware.com"></author>
+  </extension>
+</afmExtension>

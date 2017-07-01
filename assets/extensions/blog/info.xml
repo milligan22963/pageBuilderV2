@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmExtension>
+  <extension name="Simple Blog" version="1.0.0.0" requires="1.0.0.0">
+	  <description>
+		  A simple blog widget for the system.
+	  </description>
+	  <code name="blog.php" class="BlogWidget">
+		  <settings>
+		  </settings>
+	  </code>
+	  <author name="AFM Software" website="www.afmsoftware.com"></author>
+  </extension>
+</afmExtension>

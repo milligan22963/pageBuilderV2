@@ -1,0 +1,178 @@
+body
+{
+    margin: 0px;
+    padding: 0px;
+    background-color: grey;
+}
+
+section#page_content
+{
+    max-width: 100%;
+    min-height: 100%;
+    margin: 5px 5px 5px 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.extension_preview
+{
+    background: lightgrey;
+}
+
+/**
+ * @brief default values for many aspects of the site
+ */
+ a.admin_menu
+ {
+     color: blue;
+ }
+ a.user_menu
+ {
+     color: blue;
+ }
+
+ /**
+  * UI dialogs etc
+  *
+  *  |----------------------------|
+  *  |           TITLE            |
+  *  |----------------------------|
+  *  |                            |
+  *  |          CONTENT           |
+  *  |                            |
+  *  |----------------------------|
+  *  |          BUTTONS           |
+  *  |----------------------------|
+  *
+  */
+.modal_dialog
+{
+    display: none;
+}
+
+.dlg_title_bar,
+.dlg_button_deck
+{
+    width: 100%;
+    background: linear-gradient(to bottom, #b3dced 0%,#29b8e5 50%,#bce0ee 100%);
+}
+
+.dlg_button_deck
+{
+    border-top: 1px solid linear-gradient(#cedce7 0%, #596a72 100%);
+    box-shadow: 0px -4px 8px 0 rgba(0,0,0,0.3),0 6px 20px 0 rgba(0,0,0,0.3);
+    border-radius: 0px 0px 5px 5px;
+    resize: both;
+    overflow: auto;
+    flex: 0 5%;
+}
+
+.dlg_title_bar
+{
+    border-bottom: 1px solid linear-gradient(#cedce7 0%, #596a72 100%);
+    box-shadow: 0px 4px 8px 0 rgba(0,0,0,0.3),0 6px 20px 0 rgba(0,0,0,0.3);
+    border-radius: 5px 5px 0px 0px;
+    cursor: move;
+    flex: 0 10%;
+}
+
+.dlg_title_label
+{
+    margin: 2px  0px 0px 0px;
+    text-align: center;
+}
+
+.dlg_button
+{
+    border-radius: 2px;
+    border: 1px solid linear-gradient(#cedce7 0%, #596a72 100%);
+    margin: 5px;
+}
+
+.modal
+{
+    border: 1px solid black;
+    position: fixed; /* Stay in place */
+    z-index: 9; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal_box
+{
+    background: -webkit-linear-gradient(#cedce7 0%, #596a72 100%);
+    background: -moz-linear-gradient(#cedce7 0%, #596a72 100%);
+    background: -o-linear-gradient(#cedce7 0%, #596a72 100%);
+    background: linear-gradient(#cedce7 0%, #596a72 100%);
+    margin: 15% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    border-radius: 5px;
+    width: 80%;
+    box-shadow: 10px 14px 8px 0 rgba(0,0,0,0.3),0 6px 20px 0 rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position:absolute;
+    resize: both;
+    overflow: auto;
+}
+
+.modal_content
+{
+    margin: auto;
+    margin-top: 10px;
+    width: 95%;
+    flex: 1 auto;
+}
+
+/**
+ *  close box
+ */
+.close
+{
+    border: 1px solid #888;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin: 2px 2px 0px 0px;
+    color: black;
+    font-size: 14pt;
+    font-weight: bold;
+    background: linear-gradient(#cedce7 0%, #596a72 100%);
+    float: right;
+    border-radius: 2px;
+}
+.close::before
+{
+    content: "X";
+}
+.close:hover,
+.close:focus
+{
+    color: rgba(0,0,0,0.6);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/**
+ *  Toolbar
+ */
+ .toolbar
+ {
+    width: 100%;
+    background: linear-gradient(to bottom, #b3dced 0%,#29b8e5 50%,#bce0ee 100%);
+    border-radius: 0px 0px 5px 5px;
+ }
+
+ .toolbar_button
+ {
+    border-radius: 2px;
+    border: 1px solid linear-gradient(#cedce7 0%, #596a72 100%);
+    margin: 5px;
+ }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Paths should specified from the root level of the site -->
+<p:scripts xmlns:p="http://www.afmsoftware.com/scripts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.afmsoftware.com/scripts scripts.xsd ">
+	<p:paths>
+		<p:js>
+			<p:path id="SITE" path="js"/>
+			<p:path id="3RDPARTY" path="thirdparty"/>
+		</p:js>
+		<p:css>
+			<p:path id="SITE" path="css"/>
+			<p:path id="3RDPARTY" path="thirdparty"/>
+		</p:css>
+	</p:paths>
+	<p:files>
+		<p:js>
+			<p:file pathId="SITE" id="TOOLS" codefile="tools.js"/>
+			<p:file pathId="SITE" id="INHERITANCE" codefile="inheritance.js"/>
+			<p:file pathId="SITE" id="ELEMENTS" codefile="elements.js">
+				<p:requires id="TOOLS" type="js"/>
+				<p:requires id="INHERITANCE" type="js"/>
+			</p:file>
+			<p:file pathId="3RDPARTY" id="SMDE" codefile="simplemde/simplemde.min.js">
+				<p:requires id="SMDE" type="css"/>
+			</p:file>
+		</p:js>
+		<p:css>
+			<p:file pathId="SITE" id="SITE" codefile="site.css"/>
+			<p:file pathId="3RDPARTY" id="SMDE" codefile="simplemde/simplemde.min.css"/>
+		</p:css>
+	</p:files>
+</p:scripts>

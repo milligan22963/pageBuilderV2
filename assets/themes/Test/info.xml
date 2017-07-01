@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmTheme>
+  <theme id="test_theme" name="AFM Test" version="1.0.0.0" requires="1.0.0.0">
+	  <description>
+		  A theme to display what is possible with this system.
+	  </description>
+	  <code name="TestTheme.php" class="TestTheme">
+		  <settings>
+		  </settings>
+	  </code>
+		<image src="images/ScreenShot.png" />
+	  <author name="AFM Software" website="www.afmsoftware.com"></author>
+  </theme>
+</afmTheme>

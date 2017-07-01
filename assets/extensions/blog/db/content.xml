@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="simple_blog_content" version="1.0.0.0">
+	  <dependencies>
+		  <dependency name="simple_blog" />
+	  </dependencies>
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="blog_id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="content" type="CHAR_TYPE" typeLength="1024"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+          <data name="blog_id" value="&#64;simple_blog&#38;title=&#39;My First Blog&#39;&#63;id" type="QUERY"/>
+		  <data name="content" value="A first blog to test out the system" />
+		  <data name="active" value="true" />
+	  </dataset>
+   </table>
+</afmData>

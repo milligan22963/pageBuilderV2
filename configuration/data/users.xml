@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="users" version="1.0.0.0">
+	  <dependencies>
+		  <dependency name="user_types" />
+	  </dependencies>
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="name" type="CHAR_TYPE" typeLength="128"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="password" type="CHAR_TYPE" typeLength="128"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="type" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="last_activity" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+		  <data name="name" value="admin" />
+		  <data name="password" value="default" type="PASSWORD" />
+		  <data name="type" value="&#64;user_types&#38;name=&#39;admin&#39;&#63;id" type="QUERY"/>
+		  <data name="active" value="true" />
+	  </dataset>
+  </table>
+</afmData>

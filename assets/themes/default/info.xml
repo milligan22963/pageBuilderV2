@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmTheme>
+  <theme id="default_theme" name="AFM 2017" version="1.0.0.0" requires="1.0.0.0">
+	  <description>
+		  A theme to display what is possible with this system.
+	  </description>
+	  <code name="DefaultTheme.php" class="DefaultTheme">
+		  <settings>
+		  </settings>
+	  </code>
+		<image src="images/ScreenShot.png" />
+	  <author name="AFM Software" website="www.afmsoftware.com"></author>
+  </theme>
+</afmTheme>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="extensions" version="1.0.0.0">
+	  <dependencies>
+		  <dependency name="extension_types" />
+	  </dependencies>
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="path" type="CHAR_TYPE" typeLength="128"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="location" type="CHAR_TYPE" typeLength="128"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="type" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+		  <data name="path" value="login" type="STRING"/>
+		  <data name="location" value="2.1" type="STRING" />
+		  <data name="type" value="&#64;extension_types&#38;type=&#39;login&#39;&#63;id" type="QUERY"/>
+		  <data name="active" value="true" type="BOOLEAN"/>
+	  </dataset>
+	  <dataset>
+		  <data name="path" value="menu" type="STRING"/>
+		  <data name="location" value="2.3" type="STRING" />
+		  <data name="type" value="&#64;extension_types&#38;type=&#39;menu&#39;&#63;id" type="QUERY"/>
+		  <data name="active" value="true" type="BOOLEAN"/>
+	  </dataset>
+   </table>
+</afmData>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="simple_blog" version="1.0.0.0">
+	  <dependencies>
+		  <dependency name="users" />
+	  </dependencies>
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="author_id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="title" type="CHAR_TYPE" typeLength="1024"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="summary" type="CHAR_TYPE" typeLength="1024"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="approved" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+          <data name="author_id" value="&#64;users&#38;name=&#39;admin&#39;&#63;id" type="QUERY"/>
+		  <data name="title" value="My First Blog" />
+		  <data name="summary" value="A sample blog entry to show what it looks like." />
+		  <data name="approved" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+   </table>
+</afmData>

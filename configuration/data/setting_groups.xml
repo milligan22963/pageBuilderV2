@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="setting_group" version="1.0.0.0">
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="tag" type="CHAR_TYPE" typeLength="32"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="name" type="CHAR_TYPE" typeLength="128"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="description" type="CHAR_TYPE" typeLength="1024"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="admin_edit" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="true" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+		  <data name="tag" value="ADD" />
+		  <data name="name" value="Administrator Details" />
+		  <data name="description" value="The specific settings related to the administrator of the site." />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="tag" value="UA" />
+		  <data name="name" value="User Accounts" />
+		  <data name="description" value="The specific settings related to a users interaction with the site." />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="tag" value="SD" />
+		  <data name="name" value="Site Details" />
+		  <data name="description" value="The specific settings related to the site in general." />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="tag" value="AP" />
+		  <data name="name" value="Asset Paths" />
+		  <data name="description" value="The various paths to the assets of the site." />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="tag" value="REST" />
+		  <data name="name" value="Restricted Settings" />
+		  <data name="description" value="The various settings that are not modified or used by the admin/users." />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+   </table>
+</afmData>

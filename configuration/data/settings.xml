@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="settings" version="1.0.0.0">
+	  <dependencies>
+		  <dependency name="setting_group" />
+	  </dependencies>
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="group_id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="description" type="CHAR_TYPE" typeLength="1024"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="name" type="CHAR_TYPE" typeLength="128"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="value" type="CHAR_TYPE" typeLength="256"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="type" type="CHAR_TYPE" typeLength="64"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="read_only" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="true" />
+		  <column name="admin_edit" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="false" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;SD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="title" />
+		  <data name="description" value="The title of the site used on the page title and in themes." />
+		  <data name="value" value="My Site" type="STRING"/> <!-- place on both, read one line at a time so need to know the type before it is loaded -->
+		  <data name="type" value="STRING" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;SD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="tagline" />
+		  <data name="description" value="The tagline used for the site." />
+		  <data name="value" value="Another Day, Another Site..." type="STRING"/>
+		  <data name="type" value="STRING" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="admin_name" />
+		  <data name="description" value="The name of the administrator (not their user name)." />
+		  <data name="value" value="Administrator" type="STRING"/>
+		  <data name="type" value="STRING" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" /> <!-- may need to change this -->
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="admin_email" />
+		  <data name="description" value="The administrators email address." />
+		  <data name="value" value="admin&#64;example&#46;com" type="EMAIL"/>
+		  <data name="type" value="EMAIL" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;REST&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="hash_salt" />
+		  <data name="description" value="The salt for hashes for passwords." />
+		  <data name="value" value="0" type="SALT"/>
+		  <data name="type" value="SALT" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;REST&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="username_salt" />
+		  <data name="description" value="The salt for usernames." />
+		  <data name="value" value="0" type="SALT"/>
+		  <data name="type" value="SALT" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;REST&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="registration_salt" />
+		  <data name="description" value="The salt for registration keys." />
+		  <data name="value" value="0" type="SALT"/>
+		  <data name="type" value="SALT" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;SD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="theme" />
+		  <data name="description" value="The name of the theme currently in use." />
+		  <data name="value" value="default" type="STRING"/>
+		  <data name="type" value="STRING" />
+		  <data name="read_only" value="false" /> 
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  
+    <!-- theme, user content, and extensions are located under the content path - default of assets
+         so this should look something like assets/themes, assets/extensions, assets/content 
+         this will allow a user to change the path of where things are at to obsfucate the site
+         as desired/needed etc. -->
+ 	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;AP&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="admin_path" />
+		  <data name="description" value="The relative path to the administrative code." />
+		  <data name="value" value="admin" type="RELATIVE_PATH"/>
+		  <data name="type" value="RELATIVE_PATH" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;AP&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="asset_path" />
+		  <data name="description" value="The relative path to the site assets." />
+		  <data name="value" value="assets" type="RELATIVE_PATH"/>
+		  <data name="type" value="RELATIVE_PATH" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;AP&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="content_path" />
+		  <data name="description" value="The relative path to the site content." />
+		  <data name="value" value="assets&#47;content" type="RELATIVE_PATH"/>
+		  <data name="type" value="RELATIVE_PATH" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;AP&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="extension_path" />
+		  <data name="description" value="The relative path to the site extensions." />
+		  <data name="value" value="assets&#47;extensions" type="RELATIVE_PATH"/>
+		  <data name="type" value="RELATIVE_PATH" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;AP&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="theme_path" />
+		  <data name="description" value="The relative path to the site themes." />
+		  <data name="value" value="assets&#47;themes" type="RELATIVE_PATH"/>
+		  <data name="type" value="RELATIVE_PATH" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;SD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="session_length" />
+		  <data name="description" value="The length of a user session in seconds." />
+		  <data name="value" value="900" type="INTEGER"/>
+		  <data name="type" value="INTEGER" />
+		  <data name="read_only" value="true" />
+		  <data name="admin_edit" value="false" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  
+	  <!-- true to allow new users, false otherwise
+         the exception is the admin can create new users at will if permitted via the next flags -->
+ 	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="allow_new_users" />
+		  <data name="description" value="Allow new users to register on this site." />
+		  <data name="value" value="true" type="BOOLEAN"/>
+		  <data name="type" value="BOOLEAN" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="admin_create_users" />
+		  <data name="description" value="Allow the administrator to create new users." />
+		  <data name="value" value="true" type="BOOLEAN"/>
+		  <data name="type" value="BOOLEAN" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  
+	  <!-- true to allow users to upload content -->
+	  <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="user_uploads" />
+		  <data name="description" value="Allow users to upload content to the content area." />
+		  <data name="value" value="true" type="BOOLEAN"/>
+		  <data name="type" value="BOOLEAN" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  
+	  <!-- true to allow the user to be activated upon registration
+         false to require manual intervention with registration link to confirm
+         or admin enable -->
+      <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="auto_activate_registration" />
+		  <data name="description" value="Automatically activate a user when they first register." />
+		  <data name="value" value="false" type="BOOLEAN"/>
+		  <data name="type" value="BOOLEAN" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+
+      <!--  this allows the user to activate themselves, if above is false then via email
+          otherwise at time of registration.  If false then the admin(s) must activate each user -->
+      <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;ADD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="user_activate" />
+		  <data name="description" value="Allow users to active themselves through an email registration." />
+		  <data name="value" value="true" type="BOOLEAN"/>
+		  <data name="type" value="BOOLEAN" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  
+	  <!-- default to a time zone we can use -->
+      <dataset>
+		  <data name="group_id" value="&#64;setting_group&#38;tag=&#39;SD&#39;&#63;id" type="QUERY"/>
+		  <data name="name" value="time_zone" />
+		  <data name="description" value="The time zone of that the site is in." />
+		  <data name="value" value="UTC" type="STRING"/>
+		  <data name="type" value="STRING" />
+		  <data name="read_only" value="false" />
+		  <data name="admin_edit" value="true" />
+		  <data name="active" value="true" />
+	  </dataset>	  
+   </table>
+</afmData>

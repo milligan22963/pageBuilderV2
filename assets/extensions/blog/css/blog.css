@@ -1,0 +1,65 @@
+.blog_entry
+{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+label.simple_blog_title
+{
+    margin: 2px;
+    font-size: 24pt;
+}
+
+hr.simple_blog_hr
+{
+    height: 2px;
+    background-color: green;
+}
+
+label.simple_blog_content,
+div.simple_blog_comment_section
+{
+    margin-left: 20px;
+}
+
+label.simple_blog_comment
+{
+    margin-left: 10px;
+}
+
+div.simple_blog_menu_header
+{
+    text-align: center;
+}
+
+input.simple_blog_text_entry
+{
+    margin-bottom: 10px;
+    scroll-behavior: auto;
+    resize: both;
+    overflow: auto;
+    width: 100%;
+    min-height: 8em;
+}
+
+.editor
+{
+    margin: 10px;
+}
+
+div#simple_blog_create_dialog_titlediv,
+div#simple_blog_create_dialog_summarydiv,
+div#simple_blog_edit_dialog_titlediv,
+div#simple_blog_edit_dialog_summarydiv
+{
+    width: 100%;
+}
+
+input#simple_blog_create_dialog_title,
+input#simple_blog_create_dialog_summary,
+input#simple_blog_edit_dialog_title,
+input#simple_blog_edit_dialog_summary
+{
+    display: block;
+    width: 100%;
+    margin-left: 5px;
+}

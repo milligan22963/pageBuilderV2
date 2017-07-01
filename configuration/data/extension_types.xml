@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<afmData>
+  <table name="extension_types" version="1.0.0.0">
+	  <columns>
+		  <column name="id" type="INTEGER_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
+		  <column name="type" type="CHAR_TYPE" typeLength="128"
+		  	  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
+		  <column name="active" type="BOOLEAN_TYPE" typeLength="null"
+		  	typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+		  	default="false" />
+		  <column name="time_stamp" type="TIMESTAMP_ZONE_TYPE" typeLength="null"
+			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false"
+			  default="NOW&#40;&#41;" />
+	  </columns>
+	  <dataset>
+		  <data name="type" value="menu" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="type" value="login" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="type" value="blog" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
+		  <data name="type" value="custom" />
+		  <data name="active" value="true" />
+	  </dataset>
+  </table>
+</afmData>
