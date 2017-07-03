@@ -15,6 +15,7 @@ define('SAVE_BLOG_DATA', "saveBlogData");
 define('DELETE_BLOG_DATA', "deleteBlogData");
 define('ADD_BLOG_COMMENT', "addBlogComment");
 define('EDIT_BLOG_COMMENT', "editBlogComment");
+define('GET_BLOG_COMMENT', "getBlogComment");
 define('APPROVE_BLOG_COMMENT', "approveBlogComment");
 define('DELETE_BLOG_COMMENT', "deleteBlogComment");
 
@@ -104,6 +105,10 @@ class BlogWidget extends afm\Extension
 			$createBlogDiv->addClass('modal modal_dialog');
 			$editBlogDiv = afm\DivElement::withParent($blogSection, 'simple_blog_edit_dialog');
 			$editBlogDiv->addClass('modal modal_dialog');
+			$addCommentDiv = afm\DivElement::withParent($blogSection, 'simple_blog_comment_dialog');
+			$addCommentDiv->addClass('modal modal_dialog');
+			$editCommentDiv = afm\DivElement::withParent($blogSection, 'simple_blog_comment_edit_dialog');
+			$editCommentDiv->addClass('modal modal_dialog');
 		}
 	}
 
@@ -129,7 +134,7 @@ class BlogWidget extends afm\Extension
 					$command = $systemObj->getScriptURL();
 			
 					// error_log('ScriptURL: ' . $systemObj->getScriptURL(true));
-					$menuWidget->addEntry('new_blog_entry', 'New Entry', 'user_menu', "javascript:showEditor('simple_blog_create_dialog', true, 0, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "')");
+					$menuWidget->addEntry('new_blog_entry', 'New Entry', 'user_menu', "javascript:showEditor('simple_blog_create_dialog', 0, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "')");
 				}
 				else
 				{
@@ -142,6 +147,9 @@ class BlogWidget extends afm\Extension
 	public function &processRequest($option, $paramArray)
 	{
 		$success = false;
+		$systemObj = afm\System::getInstance();
+
+		include_once($systemObj->getBaseSystemDir() . 'page/JSONPage.php');
 
 		$resultingPage = new afm\JSONPage();
 
@@ -276,6 +284,27 @@ class BlogWidget extends afm\Extension
 				}
 			}
 			break;
+			case GET_BLOG_COMMENT:
+			{
+				if (array_key_exists(BLOG_COMMENT_ID, $paramArray) == true)
+				{
+					include_once('data/CommentData.php');
+
+					$commentId = intval($paramArray[BLOG_COMMENT_ID]);
+
+					if ($commentId != 0)
+					{
+						$commentData = new CommentData();
+
+						$commentData->load($commentId);
+
+						$resultingPage->addObject('data', $commentData);
+
+						$success = true;
+					}
+				}
+			}
+			break;
 			case ADD_BLOG_COMMENT:
 			{
 				$systemObj = & afm\System::getInstance();
@@ -291,18 +320,20 @@ class BlogWidget extends afm\Extension
 
 						if ($blogId != 0)
 						{
-							$commentData = afm\cleanseData($paramArray[BLOG_COMMENT_PARAM]);
+							$comment = afm\cleanseData($paramArray[BLOG_COMMENT_PARAM]);
 
 							// we have the blog id to attach the comment to
 							include_once('data/CommentData.php');
 
 							$commentData = new CommentData();
 							$commentData->setBlogId($blogId);
-							$commentData->setComment($commentData);
+							$commentData->setComment($comment);
 							$commentData->setAuthorId($userSession->getUserId());
 							$commentData->setParentCommentId($parentId);
 
 							$commentData->save();
+
+							$success = true;
 						}
 					}
 				}
@@ -328,7 +359,43 @@ class BlogWidget extends afm\Extension
 
 							if ($userSession->getUserId() == $commentData->getAuthorId())
 							{
+								$comment = afm\cleanseData($paramArray[BLOG_COMMENT_PARAM]);
 
+								$commentData->setComment($comment);
+								$commentData->save();
+
+								$success = true;
+							}
+						}
+					}
+				}
+			}
+			break;
+			case DELETE_BLOG_COMMENT:
+			{
+				// this will delete the child comments too
+				$systemObj = & afm\System::getInstance();
+
+				$userSession = & $systemObj->getUserSession();
+				if ($userSession->isLoggedIn() == true)
+				{
+					if (array_key_exists(BLOG_COMMENT_ID, $paramArray) == true)
+					{
+						$commentId = intval($paramArray[BLOG_COMMENT_ID]);
+
+						if ($commentId != 0)
+						{
+							include_once('data/CommentData.php');
+
+							$commentData = new CommentData();
+							$commentData->load($commentId);
+
+							if ($userSession->getUserId() == $commentData->getAuthorId())
+							{
+								$commentData->setActive(false);
+								$commentData->save();
+
+								$success = true;
 							}
 						}
 					}

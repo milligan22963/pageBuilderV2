@@ -94,6 +94,23 @@ class CommentData extends afm\Data
         return $this->m_blogId;
     }
 
+    /**
+     * @copydoc IData::setActive
+     */
+    public function setActive($isActive)
+    {
+        parent::setActive($isActive);
+
+        // now update our children accordingly
+        // this should be recursive so the children of children will also update
+        $childComments = $this->loadChildren($this->getId());
+        foreach ($childComments as $child)
+        {
+            $child->setActive($isActive);
+            $child->save();
+        }
+    }
+   
     public function loadAll($blogId)
     {
         $table = $this->getTable();
@@ -103,6 +120,7 @@ class CommentData extends afm\Data
         // not using a join since there is a one to many mapping
         // for each entry
         $query->addWhereClause("blog_id='" . $blogId . "'");
+        $query->addWhereClause("active=true");
         $query->addOrderClause("time_stamp asc");
 
         $blogComments = array();
@@ -121,6 +139,31 @@ class CommentData extends afm\Data
     }
 
     // internal methods
+    protected function loadChildren($parentId)
+    {
+        $table = $this->getTable();
+
+        $query = $table->createQuery();
+
+        // not using a join since there is a one to many mapping
+        // for each entry
+        $query->addWhereClause("parent_id='" . $parentId . "'");
+
+        $childComments = array();
+        $comments = $query->execute();
+
+        if ($comments != null)
+        {
+            foreach ($comments as $entry)
+            {
+                $commentData = new CommentData();
+                $commentData->fromSQL($entry);
+                $childComments[] = $commentData;
+            }
+        }
+        return $childComments;
+    }
+
     protected function fromSQL($dbObject)
     {
         parent::fromSQL($dbObject);
