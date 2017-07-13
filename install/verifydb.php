@@ -5,6 +5,10 @@
  * @brief verifies the database connection for the provided username and password
  */
 
+if (!defined('INSTALL_IN_PROGRESS'))
+{
+	define('INSTALL_IN_PROGRESS', "install_in_progress");
+}
 // used by other scripts for forms etc
 define('DB_USER_NAME', "db_userName");
 define('DB_USER_PASSWORD', "db_password");
@@ -20,6 +24,7 @@ $systemObject = afm\System::getInstance();
 include_once($baseDir . 'system/Toolbox.php');
 include_once($baseDir . 'configuration/Configuration.php');
 include_once($baseDir . 'database/postgres/PostGres.php');
+include_once($baseDir . 'database/mysql/MySQL.php');
 
 // if the file was not included, then process otherwise ignore
 if (afm\isPageIncluded(__FILE__) == false)
@@ -33,6 +38,7 @@ if (afm\isPageIncluded(__FILE__) == false)
 			$dbName = afm\cleanseData($_POST[SITE_DB_NAME]);
 			$dbPrefix = afm\cleanseData($_POST[DB_PREFIX]);
 			
+			error_log('Param array: ' . print_r($_POST, true));
 			$database = null;
 			
 			$goodParams = true;
@@ -47,7 +53,7 @@ if (afm\isPageIncluded(__FILE__) == false)
 				break;
 				case MYSQL:
 				{
-					echo 'Using mysql';
+					$database = new afm\MySQLDatabase();
 				}
 				break;
 				default:
@@ -61,23 +67,27 @@ if (afm\isPageIncluded(__FILE__) == false)
 			{
 				$database->setPrefix($dbPrefix);
 				
-				$newDatabase = false;
 				$validConfig = false;
+
+				$systemTableName = $database->getSystemTableName();
 				
 				if ($database->initialize($dbName, $userName, $password) == true)
 				{
 					// database exists so we need to reset it?
-					$validConfig = true;
+					if ($database->createDatabase($dbName, true) == true)
+					{
+						$validConfig = true;
+					}
 				}
 				else
 				{
-					if ($database->initialize('postgres', $userName, $password) == true)
+					if ($database->initialize($systemTableName, $userName, $password) == true)
 					{
 						// create $dbname for this user
-						if ($database->createDatabase($dbName) == true)
+						if ($database->createDatabase($dbName, false) == true)
 						{
-							$validConfig = true;
-							$newDatabase = true;
+							// now connect to it since it now exists
+							$validConfig = $database->initialize($dbName, $userName, $password);
 						}
 					}
 					else
@@ -102,30 +112,30 @@ if (afm\isPageIncluded(__FILE__) == false)
 				
 					$xmlConfig->saveFile();
 
-//					if ($newDatabase == true)
-//					{
-						error_log('Creating tables');
-						$tableFiles = afm\getFileList($baseDir . "configuration/data", "*", "xml", true);
-						
-						$deferred = array();
-						
-						// load the database tables
-						foreach ($tableFiles as $file)
+					error_log('Creating tables');
+
+					// need to clear out . files
+					$tableFiles = afm\getFileList($baseDir . "configuration/data", "*", "xml", true);
+					
+					$deferred = array();
+					
+					// load the database tables
+					foreach ($tableFiles as $file)
+					{
+						error_log('Creating table: ' . $file);
+						$table = &$database->loadTable($file, true);
+						if ($table == null)
 						{
-							error_log('Creating table: ' . $file);
-							$table = &$database->loadTable($file, true);
-							if ($table == null)
-							{
-								$deferred[] = $file;
-							}
+							error_log('Adding: ' . $file . ' to the deferred group');
+							$deferred[] = $file;
 						}
-						// some tables have dependencies so defer them until we are ready
-						foreach ($deferred as $file)
-						{
-							error_log('Creating deferred table: ' . $file);
-							$table = &$database->loadTable($file, true);
-						}
-//					}
+					}
+					// some tables have dependencies so defer them until we are ready
+					foreach ($deferred as $file)
+					{
+						error_log('Creating deferred table: ' . $file);
+						$table = &$database->loadTable($file, true);
+					}
 				}
 				displayResults();
 			}

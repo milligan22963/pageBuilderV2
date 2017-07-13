@@ -104,7 +104,7 @@
 			parent::fromSQL($dbObject);
 	
 			$this->setEmail($dbObject->email);
-			$this->setUserId($dbObject->userId);
+			$this->setUserId($dbObject->user_id);
 			
 			$this->clearChanges();
 		}
@@ -120,7 +120,7 @@
 			
 			if ($this->isChanged(EMAIL_ID_CHANGE) == true)
 			{
-				$arrayRepresentation['userId'] = $this->getUserId();
+				$arrayRepresentation['user_id'] = $this->getUserId();
 			}
 			
 			return $arrayRepresentation;

@@ -41,6 +41,11 @@ DialogObject.prototype =
 		this.children.push(childField);
 	},
 
+	addChildToFront: function(childField)
+	{
+		this.children = new Array(childField).concat(this.children);
+	},
+
 	populate: function(parentId)
 	{
 		// populate my children

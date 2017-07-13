@@ -522,7 +522,7 @@ function transferJSON(isPost, targetUrl, callback)
 			{
 				if (this.status == 200)
 				{
-					console.log('Respons: ' + this.responseText);
+					console.log('Response: ' + this.responseText);
 					var data = JSON.parse(this.responseText);
 					
 					if (thisObj.callback != null)
@@ -542,10 +542,25 @@ function transferJSON(isPost, targetUrl, callback)
 		else
 		{
 			var target = thisObj.url;
+			var additionalData = null;
 			thisObj.values.forEach(function(nvp)
 			{
-				target += '&' + nvp.getName() + "=" + nvp.getValue();
+				if (additionalData == null)
+				{
+					// first one will be a '?'
+					additionalData = '?';
+				}
+				else
+				{
+					additionalData += '&';
+				}
+				additionalData += nvp.getName() + "=" + nvp.getValue();
 			}, thisObj);
+
+			if (additionalData != null)
+			{
+				target += additionalData;
+			}
 			
 			thisObj.serverRequest.open("GET", target, true);			
 			thisObj.serverRequest.setRequestHeader('Content-Type', 'application/json');

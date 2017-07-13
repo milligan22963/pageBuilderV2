@@ -1,0 +1,78 @@
+<html lang="en-us"><head>
+<title>Test Site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta charset="ISO-8859-1"><link rel="stylesheet" href="http://localhost/site/css/site.css" type="text/css">
+<link rel="stylesheet" href="http://localhost/site/assets/themes/default/css/theme.css" type="text/css">
+<link rel="stylesheet" href="http://localhost/site/assets/extensions/menu/css/menu.css" type="text/css">
+<link rel="stylesheet" href="http://localhost/site/thirdparty/simplemde/simplemde.min.css" type="text/css">
+<link rel="stylesheet" href="http://localhost/site/assets/extensions/blog/css/blog.css" type="text/css">
+<link rel="stylesheet" href="http://localhost/site/assets/extensions/login/css/login.css" type="text/css">
+<script language="javascript" src="http://localhost/site/js/tools.js" type="text/javascript"> </script>
+<script language="javascript" src="http://localhost/site/js/inheritance.js" type="text/javascript"> </script>
+<script language="javascript" src="http://localhost/site/js/elements.js" type="text/javascript"> </script>
+<script language="javascript" src="http://localhost/site/thirdparty/simplemde/simplemde.min.js" type="text/javascript"> </script>
+<script language="javascript" src="http://localhost/site/assets/extensions/blog/js/blog.js" type="text/javascript"> </script>
+</head>
+<body>
+	<section id="page_content">
+<header id="header_section">
+<label id="header_label">Test Site</label>
+</header>
+<section id="main_content_box">
+<aside id="main_aside">
+<section id="menu_content_box">
+<label id="menu_title">Menu</label>
+<div id="homediv" class="menu">
+<a id="home" href="http://localhost/site/index.php" class="user_menu">Home</a>
+</div>
+<div id="menu_header_1" class="simple_blog_menu_header">
+<label id="menu_header_1_label">Blog</label>
+</div>
+<div id="new_blog_entrydiv" class="menu">
+<a id="new_blog_entry" href="javascript:showEditor('simple_blog_create_dialog', true, 0, 'http://localhost/site/index.php', 'blog')" class="user_menu">New Entry</a>
+</div>
+</section>
+</aside>
+<section id="main_content">
+<section id="simple_blog_section">
+<div id="blog_entry_1">
+<div id="blog_entry_1_title">
+<label id="blog_entry_1_title_label" class="simple_blog_title">My First Blog</label>
+<hr id="blog_entry_1_title_hr" class="simple_blog_hr">
+<label id="blog_entry_1_title_content" class="simple_blog_content">A first blog to test out the system</label>
+</div>
+<div id="blog_entry_1_title_toolbar">
+<button id="blog_entry_1_title_edit" onclick="javascript:showEditor('simple_blog_edit_dialog', false, 1, 'http://localhost/site/index.php', 'blog')">Edit</button>
+</div>
+<div id="blog_entry_1_title_comment_1" class="simple_blog_comment_section">
+<label id="blog_entry_1_title_comment_1_label" class="simple_blog_comment">My first comment</label>
+</div>
+</div>
+<div id="simple_blog_create_dialog" class="modal modal_dialog"></div>
+<div id="simple_blog_edit_dialog" class="modal modal_dialog"></div>
+</section>
+</section>
+<aside id="main_overflow">
+<form id="login" method="post" action="http://localhost/site/index.php">
+<div id="username_div">
+<div id="userName_div">
+<label id="userName_label" for="userName">User Name: </label>
+<input id="userName" name="userName" type="text" required="required">
+</div>
+</div>
+<div id="password_div">
+<div id="userPassword_div">
+<label id="userPassword_label" for="userPassword">Password: </label>
+<input id="userPassword" name="userPassword" type="password" required="required">
+</div>
+</div>
+<input id="login_submit" name="login_submit" type="submit" value="Login">
+</form>
+</aside>
+</section>
+<footer id="footer_section">
+<label id="footer_label">Something witty...</label>
+</footer>
+
+	</section>
+
+</body></html>

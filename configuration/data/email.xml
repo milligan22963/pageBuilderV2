@@ -4,7 +4,7 @@
 	  <columns>
 		  <column name="id" type="INTEGER_TYPE" typeLength="null"
 			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="true" />
-		  <column name="userId" type="INTEGER_TYPE" typeLength="null"
+		  <column name="user_id" type="INTEGER_TYPE" typeLength="null"
 			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />
 		  <column name="email" type="CHAR_TYPE" typeLength="128"
 			  typePrecision="null" allowNull="false" isIndex="false" isPrimary="false" />

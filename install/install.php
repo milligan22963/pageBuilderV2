@@ -6,6 +6,11 @@
  *			platform
  */
  
+if (!defined('INSTALL_IN_PROGRESS'))
+{
+	define('INSTALL_IN_PROGRESS', "install_in_progress");
+}
+
  // include relative - chicken and egg we cant get the system object until we include
  // its file and need the base dir to get the system object.
  // regular pages will be cleaner.  This code is intended to be temporary on a target site
@@ -42,9 +47,11 @@ $fieldSet->addLegend("Database Configuration");
 // Create the select
 $labeledInput = $fieldSet->addLabeledInput(DB_TYPE, "Select Type:", SELECT);
 
+$selectInput = $labeledInput->getInputElement();
+
 // add our options
-$labeledInput->addOption("PostGRES", POSTGRES, true);
-$labeledInput->addOption("MySQL", MYSQL, false);
+$selectInput->addOption("PostGRES", POSTGRES, true);
+$selectInput->addOption("MySQL", MYSQL, false);
 
 $dbNameDiv = $pageObject->addDiv("dbname_div", $fieldSet);
 
@@ -69,7 +76,7 @@ $passwordField->setRequired(true);
 $fieldSet->addSubmitButton("db_submit");
 
 // add our action
-$databaseForm->setAction($systemObject->getScriptURL(true) . "verifydb.php");
+$databaseForm->setAction("verifydb.php");
 
 // close the page off w/ a footer
 generateFooter($pageObject);

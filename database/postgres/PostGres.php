@@ -34,58 +34,36 @@ namespace afm
 			
 			// use the default type modifiers			
 		}
- 	
+
 	 	/**
-		 * @fn createDatabase
-		 *
 		 * @copydoc IDatabase::createDatabase
 		 */
-		 /*
--- DROP DATABASE postgres;
-
-CREATE DATABASE postgres
-    WITH 
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'C'
-    LC_CTYPE = 'C'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
-
-COMMENT ON DATABASE postgres
-    IS 'default administrative connection database';
-
-GRANT TEMPORARY, CONNECT ON DATABASE postgres TO PUBLIC;
-
-GRANT ALL ON DATABASE postgres TO postgres;
-
-GRANT CONNECT ON DATABASE postgres TO daniel;		 */
-	 	public function createDatabase($databaseName)
+	 	public function createDatabase($databaseName, $replace)
 	 	{
-		 	$success = false;
+		 	$success = parent::createDatabase($databaseName, $replace);
 		 	
-		 	$dbConnection = $this->getConnection();
-		 	
-		 	if ($dbConnection != null)
+		 	if ($success == true)
 		 	{
-			 	// create command
-			 	$createCommand = "CREATE DATABASE " . $databaseName . " WITH OWNER = " . $this->getUserName() . " ENCODING = 'UTF8'";
-			 	$createCommand .= " LC_COLLATE = 'C' LC_CTYPE = 'C' CONNECTION LIMIT = -1;";
-
-			 	$success = $this->executeCommand($createCommand);
-			 	if ($success == true)
-			 	{
-			 		$createCommand = "GRANT ALL ON DATABASE " . $databaseName . " TO " . $this->getUserName() . ";";
-			 		$success = $this->executeCommand($createCommand);
-			 	}
-		 	}
-		 	else
-		 	{
-			 	error_log('No active connection');
+				 $this->initialize($databaseName, $this->getUserName(), $this->getPassword(), $this->getHostName());
 		 	}
 		 	return $success;
 	 	}
 
+		/**
+		 * @copydoc IDatabase::dropDatabase
+		 */
+		public function dropDatabase($databaseName, $mustExist)
+		{
+			$success = false;
+
+			// we need to drop the current connection and reconnect to the system table
+			// then drop the current database
+			$this->initialize($this->getSystemTableName(), $this->getUserName(), $this->getPassword(), $this->getHostName());
+
+			$success = parent::dropDatabase($databaseName, $mustExist);
+			
+			return $success;
+		}
 	 	/**
 		 * @fn doesTableExist
 		 *
@@ -111,12 +89,41 @@ GRANT CONNECT ON DATABASE postgres TO daniel;		 */
 	        return $result;
 		}
 
+		/**
+		 * @copydoc IDatabase::getSystemTableName
+		 */
+		public function getSystemTableName()
+		{
+			return "postgres";
+		}
+
 	 	protected function &createDerivedTable()
 	 	{
 		 	$table = new PostGresTable($this);
 		 	
 		 	return $table;
 	 	}
+
+		/**
+		 * @copydoc Database::getDBCreateStatement
+		 */
+		protected function getDBCreateStatement($databaseName)
+		{
+			$createCommand = "CREATE DATABASE " . $databaseName . " WITH OWNER = " . $this->getUserName() . " ENCODING = 'UTF8'";
+			$createCommand .= " LC_COLLATE = 'C' LC_CTYPE = 'C' CONNECTION LIMIT = -1;";
+
+			return $createCommand;
+		}
+
+		/**
+		 * @copydoc Database::getGrantPrivledgeStatement
+		 */
+		protected function getGrantPrivledgeStatement($databaseName)
+		{
+			$grantCommand = "GRANT ALL ON DATABASE " . $databaseName . " TO " . $this->getUserName() . ";";
+
+			return $grantCommand;
+		}
 	}
 } 
 ?>

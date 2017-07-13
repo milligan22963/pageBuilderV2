@@ -75,9 +75,11 @@ class BlogWidget extends afm\Extension
 			include_once('data/BlogData.php');
 			include_once('BlogElement.php');
 
-			$this->requireScript('ELEMENTS');
-			$this->requireScript('SMDE');
+			$this->requireScript('HTML_ELEMENTS');
+			$this->requireScript('DIALOG');
 			$this->requireStyleSheet('css/blog.css');
+			$this->requireScript('js/comment.js');
+			$this->requireScript('js/blogentry.js');
 			$this->requireScript('js/blog.js');
 
 			$blogData = new BlogData();
@@ -134,7 +136,7 @@ class BlogWidget extends afm\Extension
 					$command = $systemObj->getScriptURL();
 			
 					// error_log('ScriptURL: ' . $systemObj->getScriptURL(true));
-					$menuWidget->addEntry('new_blog_entry', 'New Entry', 'user_menu', "javascript:showEditor('simple_blog_create_dialog', 0, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "')");
+					$menuWidget->addEntry('new_blog_entry', 'New Entry', 'user_menu', "javascript:showEditor('simple_blog_section', 0, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "')");
 				}
 				else
 				{

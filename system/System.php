@@ -343,69 +343,74 @@ namespace afm
 		 */	 
 		private function initialize()
 		{
-			$systemBaseDir = $this->getBaseSystemDir();
-
 			include_once('Toolbox.php'); // local file
-			include_once($systemBaseDir . 'database/Database.php');
-			include_once($systemBaseDir . 'database/postgres/PostGres.php');
-			include_once($systemBaseDir . 'configuration/Configuration.php');
-		//	include_once($systemBaseDir . 'database/mysql/MySql.php');
-			
-			// load config
-			$xmlFile = Configuration::getSystemConfigFileName();
-						
-			//error_log("Loading: " . $xmlFile);
-			
-			$xmlConfig = new Configuration();
-			
-			$xmlConfig->loadFile($xmlFile);
-			
-			// create db instance
-			switch ($xmlConfig->get(DB_TYPE))
+
+			if (!defined('INSTALL_IN_PROGRESS'))
 			{
-				case POSTGRES:
-				{
-					$this->m_database = new PGSQLDatabase();
-				}
-				break;
-				case MYSQL:
-				{
-				}
-				break;
-				default:
-				{
-					error_log('Bad DB Type: ' . $xmlConfig->get(DB_TYPE));
-				}
-				break;
-			}
-			
-			if ($this->m_database != null)
-			{
-				$this->m_database->setPrefix($xmlConfig->get(DB_PREFIX));
+				$systemBaseDir = $this->getBaseSystemDir();
+
+				include_once($systemBaseDir . 'database/Database.php');
+				include_once($systemBaseDir . 'database/postgres/PostGres.php');
+				include_once($systemBaseDir . 'configuration/Configuration.php');
+				include_once($systemBaseDir . 'database/mysql/MySQL.php');
 				
-				if ($this->m_database->initialize($xmlConfig->get(DB_NAME), $xmlConfig->get(DB_USER), $xmlConfig->get(DB_PASSWORD)) == true)
+				// load config
+				$xmlFile = Configuration::getSystemConfigFileName();
+							
+				//error_log("Loading: " . $xmlFile);
+				
+				$xmlConfig = new Configuration();
+				
+				$xmlConfig->loadFile($xmlFile);
+				
+				// create db instance
+				switch ($xmlConfig->get(DB_TYPE))
 				{
-					$tableFiles = getFileList($systemBaseDir . "configuration/data", "*", "xml", true);
-					
-					// load the database tables
-					foreach ($tableFiles as $file)
+					case POSTGRES:
 					{
-						$this->m_database->loadTable($file, false);
+						$this->m_database = new PGSQLDatabase();
 					}
+					break;
+					case MYSQL:
+					{
+						$this->m_database = new MySQLDatabase();
+					}
+					break;
+					default:
+					{
+						error_log('Bad DB Type: ' . $xmlConfig->get(DB_TYPE));
+					}
+					break;
+				}
+				
+				if ($this->m_database != null)
+				{
+					$this->m_database->setPrefix($xmlConfig->get(DB_PREFIX));
 					
-					// load system type settings we need
-					$this->loadSettings();
-					
-//					error_log("Database is loaded");
+					if ($this->m_database->initialize($xmlConfig->get(DB_NAME), $xmlConfig->get(DB_USER), $xmlConfig->get(DB_PASSWORD)) == true)
+					{
+						$tableFiles = getFileList($systemBaseDir . "configuration/data", "*", "xml", true);
+						
+						// load the database tables
+						foreach ($tableFiles as $file)
+						{
+							$this->m_database->loadTable($file, false);
+						}
+						
+						// load system type settings we need
+						$this->loadSettings();
+						
+	//					error_log("Database is loaded");
+					}
+					else
+					{
+						error_log("Cannot initialize db: " . $xmlConfig->get(DB_NAME));
+					}
 				}
 				else
 				{
-					error_log("Cannot initialize db: " . $xmlConfig->get(DB_NAME));
+					error_log('Cannot create db.');
 				}
-			}
-			else
-			{
-				error_log('Cannot create db.');
 			}
 			// have fun
 			

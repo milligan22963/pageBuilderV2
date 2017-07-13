@@ -32,6 +32,7 @@ namespace afm
 		private $m_dbUserName;
 		private $m_dbPassword;
 		private $m_hostName;
+		private $m_dbName;
 		
 		private $m_typeModifiers;
 		
@@ -45,6 +46,7 @@ namespace afm
 			$this->m_activeTables = array();
 			$this->m_typeModifiers = array();	
 			$this->m_dataTypes = array();
+			$this->m_dbName = null;
 			
 			// load default type modifiers
 			$this->addTypeModifier(BOOLEAN_TYPE, "%s");
@@ -74,13 +76,13 @@ namespace afm
 		 	// connect to the database and then load any tables that are there
 		 	$connectionString = $this->m_dsnName . ":" . DB_NAME . "=" . $databaseName . ";" . DB_USER . "=" . $userName . ";" . DB_PASSWORD . "=" . $password;
 		 	$connectionString .= ";" . DB_HOST . "=" . $localHost;
-		 	
 		 	try
 		 	{
-			 	$this->m_dbConnection = new \PDO($connectionString);
+			 	$this->m_dbConnection = new \PDO($connectionString, $userName, $password);
 			 	$this->m_dbUserName = $userName;
 			 	$this->m_dbPassword = $password;
 			 	$this->m_hostName = $localHost;
+				$this->m_dbName = $databaseName;
 			 	$success = true;
 			}
 			
@@ -111,24 +113,57 @@ namespace afm
 	 	/**
 		 * @copydoc IDatabase::createDatabase
 		 */
-	 	public function createDatabase($databaseName)
+	 	public function createDatabase($databaseName, $replace)
 	 	{
 		 	$success = false;
 		 	
 		 	if ($this->m_dbConnection != null)
 		 	{
+				// drop it if there
+				if ($replace == true)
+				{
+					$this->dropDatabase($databaseName, false);
+				}
+
 			 	// create command
-			 	$createCommand = 'CREATE DATABASE `' . $databaseName . '`;';
-			 	$createCommand .= "GRANT ALL ON `" . $databaseName . "`.* TO '" . $this->m_dbUserName . "'@'" . $this->m_hostName . "';";
-			 	$createCommand .= "FLUSH PRIVILEGES;";
+				$createCommand = $this->getDBCreateStatement($databaseName);
 			 	
-			 	if ($this->m_dbConnection->exec($createCommand) > 0)
-			 	{
-				 	$success = true;
-			 	}
+				 $success = $this->executeCommand($createCommand);
+				 if ($success == true)
+				 {
+					$this->m_dbName = $databaseName;
+					$grantCommand = $this->getGrantPrivledgeStatement($databaseName);
+					$this->executeCommand($grantCommand);
+				 }
 		 	}
 		 	return $success;
 	 	}
+
+	 	/**
+		 * @copydoc IDatabase::dropDatabase
+		 */
+		public function dropDatabase($databaseName, $mustExist)
+		{
+			$success = false;
+			
+			$dropCommand = $this->getDBDropStatement($databaseName, $mustExist);
+
+			$success = $this->executeCommand($dropCommand);
+
+			if ($success == true)
+			{
+				if ($databaseName == $this->m_dbName)
+				{
+					$this->m_dbName = null;
+				}
+			}
+			else
+			{
+				error_log('Dropped failed for: ' . $databaseName);
+			}
+
+			return $success;
+		}
 
 		/**
 		 * @copydoc IDatabase::createTable
@@ -256,7 +291,7 @@ namespace afm
 				 $version = $tableElement->getAttribute(VERSION_ATTR);
 				 $columns = $tableElement->getElement(COLUMNS_ELEMENT);
 				 
-//				 error_log('Name: ' . $name);
+				 //error_log('Name: ' . $name);
 				 // the actual create will be done when the developer
 				 // calls createTable on the table object.
 				 $table = &$this->createTable($name);
@@ -316,12 +351,18 @@ namespace afm
 		 	
 		 	if ($this->m_dbConnection != null)
 		 	{
-//			 	error_log("Executing command: " . $command);
-			 	
-			 	if ($this->m_dbConnection->exec($command) > 0)
+				// returns number of rows affected, which when maybe 0 when creating a database...
+				// so while a statement may not affect any rows, it is still successful
+				// of course 0 may look like false and vice versa so do a hard check on FALSE
+				$errorValue = $this->m_dbConnection->exec($command);
+			 	if (($errorValue >= 0) && ($errorValue !== FALSE))
 			 	{
 				 	$success = true;
 			 	}
+				else
+				{
+					error_log('SQL Execute Error: ' . $errorValue);
+				}
 		 	}
 		 	else
 		 	{
@@ -409,8 +450,66 @@ namespace afm
 		 	return $systemType;
 	 	}
 
+		/**
+		 * @copydoc IDatabase::getSystemTableName
+		 */
+		public function getSystemTableName()
+		{
+			return "";
+		}
+
 
 	 	// internal methods
+
+		/**
+		 *  @brief allow derived databases to provide a db specific create statement
+		 *
+		 * @param[in] databaseName - the name of the database to be created
+		 *
+		 * @return a creation statement in the chosen database's particular idiom
+		 */
+		protected function getDBCreateStatement($databaseName)
+		{
+			$createCommand = 'CREATE DATABASE `' . $databaseName . '`;';
+
+			return $createCommand;
+		}
+
+		/**
+		 * @brief allows derived databases to provide a grant statement on newly created db's
+		 *
+		 * @param[in] databaseName - the name of the database to receive grant privledges
+		 *
+		 * @return a grant privledge statement for a newly created database
+		 */
+		protected function getGrantPrivledgeStatement($databaseName)
+		{
+			$grantCommand = "GRANT ALL ON `" . $databaseName . "`.* TO '" . $this->m_dbUserName . "'@'" . $this->m_hostName . "';";
+			$grantCommand .= "FLUSH PRIVILEGES;";
+
+			return $grantCommand;
+		}
+
+		/**
+		 * @brief allows derived databases to provide a drop statement
+		 *
+		 * @param[in] databaseName - the name of the database to be dropped
+		 * @param[in] mustExist - true if it must exist, false otherwise
+		 *
+		 * @return a drop statement in the chosen database's particular idiom
+		 */
+		protected function getDBDropStatement($databaseName, $mustExist)
+		{
+			$dropCommand = "DROP DATABASE ";
+			if ($mustExist == false)
+			{
+				$dropCommand .= " IF EXISTS ";
+			}
+			$dropCommand .= $databaseName;
+
+			return $dropCommand;
+		}
+
 	 	protected function getConnection()
 	 	{
 		 	return $this->m_dbConnection;
@@ -420,6 +519,21 @@ namespace afm
 	 	{
 		 	return $this->m_dbUserName;
 	 	}
+
+		protected function getHostName()
+		{
+			return $this->m_hostName;
+		}
+
+		protected function getPassword()
+		{
+			return $this->m_dbPassword;
+		}
+
+		protected function getDatabaseName()
+		{
+			return $this->m_dbName;
+		}
 	 	
 	 	protected function addTable($table)
 	 	{

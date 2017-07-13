@@ -56,16 +56,25 @@ namespace afm
 	 	public function getPrefix();
 
 	 	/**
-		 * @fn createDatabase
-		 *
 		 * @brief called to create a database for the given user
 		 *
 		 * @param[in] $databaseName - the name of the database to create
+		 * @param[in] $replace - true if we should replace an existing database, false otherwise
 		 *
 		 * @return true on success, false otherwise
 		 */
-	 	public function createDatabase($databaseName);
+	 	public function createDatabase($databaseName, $replace);
 	 	
+	 	/**
+		 * @brief called to drop a database for the given user
+		 *
+		 * @param[in] $databaseName - the name of the database to drop
+		 * @param[in] $mustExist - true if we want an error when the database doesn't exist
+		 *
+		 * @return true on success, false otherwise
+		 */
+		public function dropDatabase($databaseName, $mustExist);
+
 		/**
 		 * @fn createTable
 		 * 
@@ -181,6 +190,13 @@ namespace afm
 		 * @return the generic system type for the given specific type
 		 */
 	 	public function getSystemDataType($dbSpecificType);
+
+		/**
+		 * @brief returns the system table name for the given database type
+		 *
+		 * @return system tablename
+		 */
+		public function getSystemTableName();
 	}
 } 
 ?>

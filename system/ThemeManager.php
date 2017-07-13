@@ -129,6 +129,8 @@ namespace afm
 			$settingsManager = SettingManager::getInstance();
 
 			$themeRootPath = $settingsManager->getSetting(PATH_THEME);
+
+			error_log('Theme Root Path: ' . $themeRootPath);
 			
 			$this->m_rootThemePath = $baseDir . $themeRootPath;
 
@@ -137,6 +139,8 @@ namespace afm
 			$this->m_activeThemePath = $this->m_rootThemePath . '/' . $activeTheme . '/';
 
 			$this->m_rootThemeURL = $systemObject->getSiteRootURL() . $themeRootPath . '/';
+
+			error_log('RootThemeURL: ' . $this->m_rootThemeURL);
 			$this->m_activeThemeURL = $this->m_rootThemeURL . $activeTheme . '/';
 			
 			$this->m_activeThemeInstance = Theme::withPath($this->m_activeThemePath);

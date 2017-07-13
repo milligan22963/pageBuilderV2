@@ -6,8 +6,6 @@
  */
 namespace afm
 {
-	define('CONFIGURATION_SECTION', 'configuration');
-		
 	interface IConfiguration
 	{
 		public function set($name, $value);

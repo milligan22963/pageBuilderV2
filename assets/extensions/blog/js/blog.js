@@ -1,220 +1,56 @@
-/**
- *  comment entry
- */
-function CommentEntry(objectId, text)
-{
-    this.initialize(objectId, null, null);
-    this.commentText = text;
-    this.parentId = 0;
-    this.authorId = 0;
-    this.commentId = 0;
-}
-CommentEntry.inheritsFrom(DivElement);
-CommentEntry.prototype.setParentId = function(parentId)
-{
-    this.parentId = parentId;
-};
-CommentEntry.prototype.getParentId = function()
-{
-    return this.parentId;
-};
-CommentEntry.prototype.setAuthorId = function(authorId)
-{
-    this.authorId = authorId;
-};
-CommentEntry.prototype.getAuthorId = function()
-{
-    return this.authorId;
-};
-CommentEntry.prototype.setId = function(id)
-{
-    this.commentId = id;
-};
-CommentEntry.prototype.getId = function()
-{
-    return this.commentId;
-};
-CommentEntry.prototype.populate = function(parentId)
-{
-	if (this.isPopulated == false)
-	{
-        this.addClass('simple_blog_comment_section');
-
-        var commentLabel = new LabelElement(this.objectId + '_lbl', this.commentText, null);
-
-        commentLabel.addClass('simple_blog_comment');
-
-        this.addChildToFront(commentLabel);
-
-        // create myself
-        this.parent[this['CommentEntry']].populate.call(this, parentId);
-    }
-};
-
-/**
- *  blog entry
- */
-function BlogEntry(objectId, toolTip)
-{
-    this.initialize(objectId, null, null);
-
-    this.blogId = 0;
-    this.authorId = 0;
-    this.currentUserId = 0;
-    this.tooltip = null;
-    this.title = null;
-    this.content = null;
-    this.comments = new Array();
-    this.url = null;
-    this.extPath = null;
-}
-BlogEntry.inheritsFrom(DivElement);
-BlogEntry.prototype.setToolTip = function(tooltip)
-{
-    this.tooltip = tooltip;
-};
-BlogEntry.prototype.setTitle = function(title)
-{
-    this.title = title;
-};
-BlogEntry.prototype.setContent = function(content)
-{
-    this.content = content;
-};
-BlogEntry.prototype.addComment = function(comment)
-{
-    this.comments.push(comment);
-};
-BlogEntry.prototype.setBlogId = function(id)
-{
-    this.blogId = id;
-};
-BlogEntry.prototype.setAuthorId = function(id)
-{
-    this.authorId = id;
-};
-BlogEntry.prototype.setCurrentUserId = function(id)
-{
-    this.currentUserId = id;
-};
-BlogEntry.prototype.setUrl = function(url)
+function RequestBlogData(start, recordCount, url, extOption, parentContainerId)
 {
     this.url = url;
-};
-BlogEntry.prototype.setExtOption = function(extPath)
-{
-    this.extPath = extPath;
-};
-BlogEntry.prototype.populate = function(parentId)
-{
-	if (this.isPopulated == false)
-	{
-        this.addClass('blog_entry');
+    this.extOption = extOption;
 
-        if (this.tooltip != null)
+    var thisObj = this;
+
+    this.parentContainerId = parentContainerId;
+
+    this.processResponse = function(decodedData)
+    {
+        if (decodedData.success == "true")
         {
-            addAttributes(this.objectId, {'title':this.tooltip});
-        }
-
-        var blogContentId = this.objectId + '_title';
-
-        var blogContent = new DivElement(blogContentId);
-
-        this.addChild(blogContent);
-
-        // now add in the children such as title, summary, etc
-        var headingElement = new LabelElement(this.objectId + '_title_label', this.title, null);
-
-        headingElement.addClass('simple_blog_title');
-
-        blogContent.addChild(headingElement);
-
-        var hRule = new HorizontalRuleElement(this.objectId + '_hr');
-
-        hRule.addClass('simple_blog_hr');
-
-        this.addChild(hRule);
-
-        var contentLabel = new LabelElement(this.objectId + '_content', this.content, null);
-
-        contentLabel.addClass('simple_blog_content');
-
-        this.addChild(contentLabel);
-
-        // add in edit toolbar if required
-        if (this.authorId == this.currentUserId)
-        {
-            var thisObj = this;
-
-            var toolBar = new ToolbarElement(this.objectId + '_toolbar', false, null);
-
-            var button = new ButtonElement(this.objectId + '_edit', "Edit", function () {showEditor('simple_blog_edit_dialog', thisObj.blogId, thisObj.objectId, thisObj.url, thisObj.extPath);});
-
-            toolBar.addChild(button);
-
-            button = new ButtonElement(this.objectId + '_delete', "Delete", function () {deleteBlogEntry(thisObj.url, thisObj.extPath, thisObj.blogId, thisObj.objectId);});
-
-            toolBar.addChild(button);
-
-            button = new ButtonElement(this.objectId + '_comment', "Comment", function () {showAddCommentEditor('simple_blog_comment_dialog', 0, thisObj.blogId, 0, thisObj.url, thisObj.extPath)});
-
-            toolBar.addChild(button);
-            
-            this.addChild(toolBar);
-        }
-
-        var commentRule = new HorizontalRuleElement(this.objectId + '_cmmt_hr');
-        commentRule.addClass('simple_blog_hr');
-
-        this.addChild(commentRule);
-
-        this.comments.forEach(function(comment)
-        {
-            var wasAdded = true;
-
-            if (comment.getParentId() == 0)
+            // populate each blog entry
+            decodedData.data.forEach(function(entry)
             {
-                this.addChild(comment);
-            }
-            else
-            {
-                wasAdded = false;
-                this.comments.forEach(function(parentComment)
+                var blogEntry = new BlogEntry(entry.id, entry.authorId, decodedData.userId);
+
+                blogEntry.setId('blog_entry_' + entry.id);
+                blogEntry.setTitle(entry.title);
+                blogEntry.setContent(entry.content);
+                blogEntry.setExtOption(thisObj.extOption);
+                blogEntry.setUrl(thisObj.url);
+                blogEntry.setTooltip(entry.summary);
+
+                entry.comments.forEach(function(comment)
                 {
-                    if (parentComment.getId() == comment.getParentId())
-                    {
-                        parentComment.addChild(comment);
-                        wasAdded = true;
-                    }
-                }, this);
-            }
+                    var commentEntry = new CommentEntry(comment.id, comment.parentComment, comment.authorId);
 
-            // add toolbar for comment
-            if ((wasAdded == true) && (this.currentUserId == comment.getAuthorId()))
-            {
-                var toolbar = new ToolbarElement(this.objectId + '_comment_toolbar_' + comment.getId(), false, null);
+                    commentEntry.setId('blog_entry_comment_' + comment.id);
+                    commentEntry.setText(comment.comment);
 
-                var button = new ButtonElement(this.objectId + '_cmt_edit_' + comment.getId(), "Edit", function () {showAddCommentEditor('simple_blog_comment_edit_dialog', comment.getId(), thisObj.blogId, comment.getParentId(), thisObj.url, thisObj.extPath)});
+                    commentEntry.addClass('simple_blog_comment_section');
 
-                toolbar.addChild(button)
+                    blogEntry.addComment(commentEntry);
+                 }, this);
 
-                button = new ButtonElement(this.objectId + '_cmt_delete_' + comment.getId(), "Delete", function () {deleteBlogComment(thisObj.url, thisObj.extPath, comment.getId(), comment.objectId);});
-                toolbar.addChild(button)
+                var parentContainer = document.getElementById(thisObj.parentContainerId);
 
-                // for adding a comment to comment so this comment will be the parent
-                button = new ButtonElement(this.objectId + '_cmt_comment_' + comment.getId(), "Comment", function () {showAddCommentEditor('simple_blog_comment_dialog', 0, thisObj.blogId, comment.getId(), thisObj.url, thisObj.extPath)});
+                blogEntry.populate(parentContainer);
+            }, this);
+        }
+    };
 
-                toolbar.addChild(button);
+    var request = new transferJSON(true, url, thisObj.processResponse);
 
-                comment.addChild(toolbar);
-            }
-        }, this);
+    request.addValue(new nameValuePair('userOption', 'getBlogData'));
+    request.addValue(new nameValuePair('extOption', extOption));
+    request.addValue(new nameValuePair('startRecord', start));
+    request.addValue(new nameValuePair('recordCount', recordCount));
 
-        // create myself
-        this.parent[this['BlogEntry']].populate.call(this, parentId);
-    }
+    request.send();    
 }
-
 function addBlogComment(commentEditorObj)
 {
     this.url = commentEditorObj.url;
@@ -283,116 +119,6 @@ function cancelBlogComment(commentEditorObj)
 {
     commentEditorObj.textEditor.setContent("");
 }
-function RequestBlogData(start, recordCount, url, extOption, parentContainerId)
-{
-    this.url = url;
-    this.extOption = extOption;
-
-    var thisObj = this;
-
-    this.parentContainerId = parentContainerId;
-
-    this.processResponse = function(decodedData)
-    {
-        if (decodedData.success == "true")
-        {
-            // populate each blog entry
-            decodedData.data.forEach(function(entry)
-            {
-                var blogEntry = new BlogEntry('blog_entry_' + entry.id, entry.summary);
-
-                blogEntry.setTitle(entry.title);
-                blogEntry.setContent(entry.content);
-                blogEntry.setBlogId(entry.id);
-                blogEntry.setCurrentUserId(decodedData.userId);
-                blogEntry.setAuthorId(entry.authorId);
-                blogEntry.setExtOption(thisObj.extOption);
-                blogEntry.setUrl(thisObj.url);
-
-                entry.comments.forEach(function(comment)
-                {
-                    var commentEntry = new CommentEntry('blog_entry_comment_' + comment.id, comment.comment);
-
-                    commentEntry.setParentId(comment.parentComment);
-                    commentEntry.setId(comment.id);
-                    commentEntry.setAuthorId(comment.authorId);
-
-                    commentEntry.addClass('simple_blog_comment');
-
-                    blogEntry.addComment(commentEntry);
-                });
-
-                blogEntry.populate(thisObj.parentContainerId);
-            }, this);
-        }
-    };
-
-    var request = new transferJSON(true, url, thisObj.processResponse);
-
-    request.addValue(new nameValuePair('userOption', 'getBlogData'));
-    request.addValue(new nameValuePair('extOption', extOption));
-    request.addValue(new nameValuePair('startRecord', start));
-    request.addValue(new nameValuePair('recordCount', recordCount));
-
-    request.send();    
-}
-
-/**
- * SMDEElement
- */
-function SMDEElement(objectId, text, action)
-{
-	this.initialize(objectId, text, action);
-
-    this.simplemde = null;
-
-    // already populated?
-    var element = document.getElementById(this.objectId);
-    if (element != null)
-    {
-        this.simplemde = element.data;
-    }
-}
-SMDEElement.inheritsFrom(DialogObject);
-SMDEElement.prototype.getContent = function()
-{
-    return this.simplemde.value();
-};
-SMDEElement.prototype.setContent = function(content)
-{
-    this.simplemde.value(content);
-};
-SMDEElement.prototype.populate = function(parentId)
-{
-	if (this.isPopulated == false)
-	{
-		// create myself first
-		var childEntry = '<textarea id="' + this.objectId + '" class="editor"></textarea>';
-
-		appendHtml(parentId, childEntry, false);
-
-        this.simplemde = new SimpleMDE(
-        {
-            element: document.getElementById(this.objectId),
-            spellChecker: true,
-            lineWrapping: true,
-            placeholder: "Enter text here...",
-            autoDownloadFontAwesome: true // for now
-        });
-
-        var element = document.getElementById(this.objectId);
-        element.data = this.simplemde;
-
-        if (this.action != null)
-        {
-            this.simplemde.codemirror.on("change", this.action);
-        }
-
-		// add my children to myself
-		this.parent[this['SMDEElement']].populate.call(this, this.objectId);
-	}
-};
-
 function saveBlogEntry(showFuncObj)
 {
     this.smdeTextEditor = showFuncObj.textEditor;
@@ -504,7 +230,7 @@ function showAddCommentEditor(targetId, commentId, blogId, parentId, siteUrl, pa
     {
         var change = false;
 
-        if (thisObj.textEditor.simplemde.value() != thisObj.commentData)
+        if (thisObj.textEditor.getContent() != thisObj.commentData)
         {
             change = true;
         }
@@ -573,7 +299,7 @@ function showEditor(targetId, blogId, objectId, siteUrl, path)
             change = true;
         }
 
-        if (thisObj.textEditor.simplemde.value() != thisObj.blogContent)
+        if (thisObj.textEditor.getContent() != thisObj.blogContent)
         {
             change = true;
         }
@@ -597,13 +323,18 @@ function showEditor(targetId, blogId, objectId, siteUrl, path)
         thisObj.textEditor.setContent(decodedData.data.content);
     };
 
+    var buttons = new Array(
+        { id: "blog_ok_btn", text: "Ok", action: function() { saveBlogEntry(thisObj);}},
+        { id: "blog_cancel_btn", text: "Cancel", action: function() { cancelBlogEntry(thisObj); thisObj.dialogObj.hide(); }}
+    );
+
     if (blogId == 0)
     {
-         this.dialogObj = new Dialog(targetId, "New Entry");
+         this.dialogObj = new Dialog("New Entry", buttons);
     }
     else
     {
-        this.dialogObj = new Dialog(targetId, "Edit Entry");
+        this.dialogObj = new Dialog("Edit Entry", buttons);
 
         // set up init script
         this.dialogObj.initCall = function()
@@ -618,6 +349,9 @@ function showEditor(targetId, blogId, objectId, siteUrl, path)
         };
     }
 
+    this.dialogObj.populate(document.getElementById(targetId));
+    this.dialogObj.show();
+    return;
     this.dialogObj.setSavePosition(true);
 
 	var form = new FormElement(targetId + "_form", null);

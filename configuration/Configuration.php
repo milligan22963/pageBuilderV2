@@ -6,8 +6,6 @@
  */
 namespace afm
 {
-	define('CONFIGURATION_SECTION', 'configuration');
-
 	$systemObject = & System::getInstance();
 
 	$baseDir = $systemObject->getBaseSystemDir();
