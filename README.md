@@ -17,7 +17,7 @@ The extension activation is done via the admin site reachable via .../admin/inde
 
 Right now I have a number of things I plan on adding however it is very much a one step at a time procedure.  If you are interested, feel free to pull and update as you like.
 
-I do have some inconsistencies between the PHP side and the JS side, look at HtmlElements.php compared to elements.js.  In the end it would be nice to have a one to one correlation between the two.  Work continues in this area.
+I do have some inconsistencies between the PHP side and the JS side, look at HtmlElements.php compared to elements.js.  In the end it would be nice to have a one to one correlation between the two.  Work has continued in this area and there is now an htmlelements.js file matching somewhat the HtmElements.php.  It still isn't a 1 to 1 correlation but its better.
 
 The final goal is a programatical system that a user can utilize the same methods regardless of PHP or JS to create the pages they require to display the content they want.
 
