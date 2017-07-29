@@ -9,6 +9,7 @@
  	define('MENU_TYPE', "menu");
  	define('LOGIN_TYPE', "login");
  	define('BLOG_TYPE', "blog");
+ 	define('GAME_TYPE', "game");
  	define('CUSTOM_TYPE', "custom");
 
 	include_once('Data.php');

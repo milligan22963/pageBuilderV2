@@ -30,6 +30,7 @@ define('BLOG_CONTENT_PARAM', "blogContent");
 define('BLOG_COMMENT_PARAM', "blogComment");
 define('BLOG_COMMENT_ID', "commentId");
 define('BLOG_COMMENT_PARENT_ID', "parentId");
+define('ALLOW_COMMENTS', "allowComments");
 
 // module defines
 define('MAX_BLOG_CONTENT_LENGTH', 1024);
@@ -70,47 +71,22 @@ class BlogWidget extends afm\Extension
 		{
 			$blogPath = basename($this->getExtensionPath());
 
-			$systemObj->getPageObject()->executeOnWindowLoad("RequestBlogData(1, 5, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "', 'simple_blog_section')");
+			$systemObj->getPageObject()->executeOnWindowLoad("requestBlogData(1, 5, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "', 'simple_blog_section')");
 
 			include_once('data/BlogData.php');
-			include_once('BlogElement.php');
 
 			$this->requireScript('HTML_ELEMENTS');
 			$this->requireScript('DIALOG');
+			$this->requireScript('EDITOR');
 			$this->requireStyleSheet('css/blog.css');
 			$this->requireScript('js/comment.js');
 			$this->requireScript('js/blogentry.js');
 			$this->requireScript('js/blog.js');
 
-			$blogData = new BlogData();
-			
 			// do we want settings to show # of blogs per page
 			// do we want to only show to registered users?
 			// auto show/hide comments
 			$blogSection = afm\SectionElement::withParent($parentElement, 'simple_blog_section');
-
-			// pull X blogs
-
-/*			$entries = $blogData->getBlogEntries(0, 5);
-		
-			foreach ($entries as $blogEntry)
-			{
-				$blogElement = BlogElement::withIdAndObject('blog_entry_' . $blogEntry->getId(), $blogEntry, $blogPath);
-
-				$blogElement->addClass('blog_entry');
-
-				$blogSection->addChildElement($blogElement);
-			}*/
-
-			// hidden blog/dialogs
-			$createBlogDiv = afm\DivElement::withParent($blogSection, 'simple_blog_create_dialog');
-			$createBlogDiv->addClass('modal modal_dialog');
-			$editBlogDiv = afm\DivElement::withParent($blogSection, 'simple_blog_edit_dialog');
-			$editBlogDiv->addClass('modal modal_dialog');
-			$addCommentDiv = afm\DivElement::withParent($blogSection, 'simple_blog_comment_dialog');
-			$addCommentDiv->addClass('modal modal_dialog');
-			$editCommentDiv = afm\DivElement::withParent($blogSection, 'simple_blog_comment_edit_dialog');
-			$editCommentDiv->addClass('modal modal_dialog');
 		}
 	}
 
@@ -136,7 +112,7 @@ class BlogWidget extends afm\Extension
 					$command = $systemObj->getScriptURL();
 			
 					// error_log('ScriptURL: ' . $systemObj->getScriptURL(true));
-					$menuWidget->addEntry('new_blog_entry', 'New Entry', 'user_menu', "javascript:showEditor('simple_blog_section', 0, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "')");
+					$menuWidget->addEntry('new_blog_entry', 'New Entry', 'user_menu', "javascript:showBlogEditor('simple_blog_section', 0, '" . $systemObj->getScriptURL(true) . "', '" . $blogPath . "')");
 				}
 				else
 				{
@@ -194,12 +170,16 @@ class BlogWidget extends afm\Extension
 					$systemObj = & afm\System::getInstance();
 					$userSession = & $systemObj->getUserSession();
 
+					$allowComments = "off";
+
 					$userId = 0; // no user
 					if ($userSession->isLoggedIn() == true)
 					{
 						$userId = $userSession->getUserId();
+						$allowComments = "on"; // need a system setting to allow/disallow comments
 					}
 
+					$resultingPage->addObject(ALLOW_COMMENTS, $allowComments);
 					$resultingPage->addObject(BLOG_USER_ID, $userId);
 
 					$success = true;

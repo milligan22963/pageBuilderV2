@@ -89,7 +89,7 @@ if ($adminPage == null)
 		$adminPage->requireJS('TOOLS');
 		if ($jsFile != null)
 		{
-			$adminPage->addJSFile($jsFile);
+			$adminPage->addJSFile($jsFile, SITE_FILE);
 		}
 		
 		$themeManager = & $systemObj->getThemeManager();

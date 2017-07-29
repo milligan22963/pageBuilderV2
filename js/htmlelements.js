@@ -19,6 +19,22 @@ BaseElement.prototype =
     {
         return this.object.textContent;
     },
+    setValue : function(value)
+    {
+        this.object.value = value;
+    },
+    getValue : function()
+    {
+        return this.object.value;
+    },
+    setData : function(data)
+    {
+        this.object.data = data;
+    },
+    getData : function()
+    {
+        return this.object.data;
+    },
     setId : function(id)
     {
         this.object.id = id;
@@ -34,6 +50,36 @@ BaseElement.prototype =
     setClickHandler : function(action)
     {
         this.object.addEventListener("click", action);
+    },
+    onMouseUp : function(action, capture)
+    {
+        this.mouseUpAction = action;
+        this.object.addEventListener("mouseup", action, capture);
+    },
+    onRemoveMouseUp : function()
+    {
+        this.object.removeEventListener("mouseup", this.mouseUpAction);
+        this.mouseUpAction = null;
+    },
+    onMouseDown : function(action, capture)
+    {
+        this.mouseDownAction = action;
+        this.object.addEventListener("mousedown", action, capture);
+    },
+    onRemoveMouseDown : function()
+    {
+        this.object.removeEventListener("mousedown", this.mouseDownAction);
+        this.mouseDownAction = null;
+    },
+    onMouseMove : function(action, capture)
+    {
+        this.mouseMoveAction = action;
+        this.object.addEventListener("mousemove", action, capture);
+    },
+    onRemoveMouseMove : function()
+    {
+        this.object.removeEventListener("mousemove", this.mouseMoveAction);
+        this.mouseMoveAction = null;
     },
     appendChild : function(child)
     {
@@ -67,10 +113,74 @@ BaseElement.prototype =
 	{
         this.object.style.width = width;			
 	},
+    getWidth : function()
+    {
+        return this.object.style.width;
+    },
 	setHeight : function(height)
 	{
         this.object.style.height = height;			
-	},
+    },
+    getHeight : function()
+    {
+        return this.object.style.height;
+    },
+    setTop : function(top)
+    {
+        this.object.style.top = top;
+    },
+    getTop : function()
+    {
+        return this.object.style.top;
+    },
+    setLeft : function(left)
+    {
+        this.object.style.left = left;
+    },
+    getLeft : function()
+    {
+        return this.object.style.left;
+    },
+    setOffsetTop : function(top)
+    {
+        this.object.offsetTop = top;
+    },
+    getOffsetTop : function()
+    {
+        return this.object.offsetTop;
+    },
+    setOffsetLeft : function(left)
+    {
+        this.object.offsetLeft = left;
+    },
+    getOffsetLeft : function()
+    {
+        return this.object.offsetLeft;
+    },
+    setOffsetWidth : function(width)
+    {
+        this.object.offsetWidth = width;
+    },
+    getOffsetWidth : function()
+    {
+        return this.object.offsetWidth;
+    },
+    setOffsetHeight : function(height)
+    {
+        this.object.offsetHeight = height;
+    },
+    getOffsetHeight : function()
+    {
+        return this.object.offsetHeight;
+    },
+    enable : function()
+    {
+        this.object.disabled = false;
+    },
+    disable : function()
+    {
+        this.object.disabled = true;
+    },
     populate : function(parent)
     {
         if (parent.afmName !== undefined)
@@ -228,6 +338,15 @@ function LabelElement()
 LabelElement.inheritsFrom(BaseElement);
 
 /**
+ *  HeadingElement
+ */
+function HeadingElement(depth)
+{
+    this.initialize('h' + depth);
+}
+HeadingElement.inheritsFrom(BaseElement);
+
+/**
  * SpanElement
  */
 function SpanElement()
@@ -274,6 +393,35 @@ InputElement.inheritsFrom(BaseElement);
 InputElement.prototype.setType = function(type)
 {
     this.addAttribute("type", type);
+};
+
+/**
+ * LabeledInputElement
+ */
+function LabeledInputElement(labelText)
+{
+    this.initialize("div");
+    this.inputField = new InputElement();
+
+    var label = new LabelElement();
+
+    label.setText(labelText);
+
+    this.appendChild(label);
+    this.appendChild(this.inputField);
+}
+LabeledInputElement.inheritsFrom(BaseElement);
+LabeledInputElement.prototype.setType = function(type)
+{
+    this.inputField.addAttribute("type", type);
+};
+LabeledInputElement.prototype.setText = function(text)
+{
+    this.inputField.setValue(text);
+};
+LabeledInputElement.prototype.getText = function()
+{
+    return this.inputField.getValue();
 };
 
 /**

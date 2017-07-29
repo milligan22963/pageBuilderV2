@@ -453,7 +453,7 @@ namespace afm
 
 			$pageObject = & $systemObject->getPageObject();
 
-			$pageObject->addCSSFile($this->m_themeURL . $styleSheet);	
+			$pageObject->addCSSFile($this->m_themeURL . $styleSheet, THEME_FILE);	
 		}
 		
 		protected function requireScript($jsFile)
@@ -462,7 +462,7 @@ namespace afm
 
 			$pageObject = & $systemObject->getPageObject();
 
-			$pageObject->addJSFile($this->m_themeURL . $jsFile);
+			$pageObject->addJSFile($this->m_themeURL . $jsFile, THEME_FILE);
 		}
 		
 		protected function installTables()

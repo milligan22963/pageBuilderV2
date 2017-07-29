@@ -416,7 +416,7 @@ function saveData(dataId, dataValue, expiration)
  * 
  * @return dataValue, null if not found our expired
  */
-function getData(dataId)
+function restoreData(dataId)
 {
     var dataValue = null;
     

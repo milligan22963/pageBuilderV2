@@ -142,7 +142,7 @@ namespace afm
 
 			$currentPage = & $systemObject->getPageObject();
 
-			$currentPage->addCSSFile($this->m_extensionPath . $styleSheet);
+			$currentPage->addCSSFile($this->m_extensionPath . $styleSheet, EXT_FILE);
 		}
 		
 		protected function requireScript($jsFile)
@@ -157,7 +157,7 @@ namespace afm
 			{
 				$pageObject = & $systemObject->getPageObject();
 
-				$pageObject->addJSFile($this->m_extensionPath . $jsFile);
+				$pageObject->addJSFile($this->m_extensionPath . $jsFile, EXT_FILE);
 			}
 		}
 		

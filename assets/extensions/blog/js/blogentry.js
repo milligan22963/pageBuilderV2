@@ -1,16 +1,13 @@
 /**
  *  blog entry
  */
-function BlogEntry(blogId, authorId, currentUserId)
+function BlogEntry(blogId)
 {
     this.blogId = blogId;
-    this.authorId = authorId;
-    this.currentUserId = currentUserId;
     this.title = new LabelElement();
     this.content = new LabelElement();
     this.comments = new Array();
-    this.url = null;
-    this.extPath = null;
+    this.toolbar = new ToolbarElement();
 
     this.addClass('blog_entry');
     this.title.addClass('simple_blog_title');
@@ -26,11 +23,10 @@ function BlogEntry(blogId, authorId, currentUserId)
     this.content.addClass('simple_blog_content');
     this.appendChild(this.content);
 
-    // add in tool bar if ok
-    if (authorId == currentUserId)
-    {
+    this.toolbar.removeClass('toolbar');
+    this.toolbar.addClass('blog_toolbar');
+    this.appendChild(this.toolbar);
 
-    }
     var hr = new HorizontalRuleElement();
 
     hr.addClass('simple_blog_hr');
@@ -40,6 +36,10 @@ BlogEntry.inheritsFrom(DivElement);
 BlogEntry.prototype.setTitle = function(title)
 {
     this.title.setText(title);
+};
+BlogEntry.prototype.getId = function()
+{
+    return this.blogId;
 };
 BlogEntry.prototype.setContent = function(content)
 {
@@ -70,29 +70,18 @@ BlogEntry.prototype.addComment = function(comment)
     }
     this.comments.push(comment);
     // add toolbar for comment
-/*    if (this.currentUserId == comment.getAuthorId())
-    {
-        var toolbar = new ToolbarElement(this.objectId + '_comment_toolbar', false, null);
-
-        var button = new ButtonElement(this.objectId + '_cmt_edit', "Edit", null);
-
-        toolbar.addChild(button)
-
-        button = new ButtonElement(this.objectId + '_cmt_delete', "Delete", null);
-        toolbar.addChild(button)
-
-        button = new ButtonElement(this.objectId + '_cmt_comment', "Comment", null);
-
-        toolbar.addChild(button);
-
-        this.addChild(toolbar);
-    }*/
 };
-BlogEntry.prototype.setUrl = function(url)
+BlogEntry.prototype.allowEditing = function(url, extOption, parentContainerId)
 {
-    this.url = url;
+    var thisObj = this;
+
+    this.toolbar.addButton("Edit", function() { showBlogEditor(thisObj, parentContainerId, url, extOption); });
+    this.toolbar.addButton("Delete", function() { deleteBlogEntry(thisObj, thisObj.blogId, url, extOption); });
+//    toolbar.addButton("Approve", function() { showBlogEditor(parentContainerId, thisObj.blogId, url, extOption); });
 };
-BlogEntry.prototype.setExtOption = function(extPath)
+BlogEntry.prototype.allowComments = function(url, extOption, parentContainerId)
 {
-    this.extPath = extPath;
+    var thisObj = this;
+
+    this.toolbar.addButton("Comment", function() { showCommentEditor(null, parentContainerId, 0, thisObj.blogId, 0, url, extOption); });
 };

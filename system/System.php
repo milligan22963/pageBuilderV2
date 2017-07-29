@@ -10,6 +10,11 @@ namespace afm
 	define('SYSTEM_OBJ', 'system');
 	define('FUNCTION_PARAMETER', "func");
 
+	// file types for loading css/js files (order by site, theme, extensions)
+	define('SITE_FILE', 'site');
+	define('THEME_FILE', 'theme');
+	define('EXT_FILE', ' ext');
+
 	define('PAGE_DOMAIN', "page");
 	define('PAGE_ADMIN_DOMAIN', "admin");
 	define('PAGE_USER_DOMAIN', "user");

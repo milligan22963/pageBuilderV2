@@ -75,7 +75,7 @@ namespace afm
 						$this->requireStyle($dependency);
 					}
 				}
-				$page->addJSFile($this->m_jsFiles[$jsId]);
+				$page->addJSFile($this->m_jsFiles[$jsId], SITE_FILE);
 			
 				$success = true;
 			}
@@ -93,7 +93,7 @@ namespace afm
 
 				$page = $systemObj->getPageObject();
 
-				$page->addCSSFile($this->m_cssFiles[$cssId]);
+				$page->addCSSFile($this->m_cssFiles[$cssId], SITE_FILE);
 
 				$success = true;
 			}
@@ -134,7 +134,7 @@ namespace afm
 			
 			if ($scriptsElement != null)
 			{
-//				error_log('Found scripts element');
+				// error_log('Found scripts element');
 				// load all of the paths
 				$paths = $scriptsElement->getElement(PATHS_ELEMENT);
 				if ($paths != null)
@@ -145,7 +145,7 @@ namespace afm
 						foreach ($jsPaths->getElements(PATH_ELEMENT) as $jsPath)
 						{
 							$this->m_jsPaths[$jsPath->getAttribute(ID_ATTR)] = $rootUrl . $jsPath->getAttribute(PATH_ATTR) . '/';
-//							error_log('JS Path: ' . $jsPath->getAttribute(ID_ATTR));
+							// error_log('JS Path: ' . $jsPath->getAttribute(ID_ATTR));
 						}
 					}
 
@@ -155,7 +155,7 @@ namespace afm
 						foreach ($cssPaths->getElements(PATH_ELEMENT) as $cssPath)
 						{
 							$this->m_cssPaths[$cssPath->getAttribute(ID_ATTR)] = $rootUrl . $cssPath->getAttribute(PATH_ATTR) . '/';
-//							error_log('CSS Path: ' . $cssPath->getAttribute(ID_ATTR));
+						// error_log('CSS Path: ' . $cssPath->getAttribute(ID_ATTR));
 						}
 					}
 					
@@ -174,7 +174,7 @@ namespace afm
 					{
 						foreach ($jsFiles->getElements(FILE_ELEMENT) as $jsFile)
 						{
-//							error_log('JS File: ' . $jsFile->getAttribute(ID_ATTR));
+							// error_log('JS File: ' . $jsFile->getAttribute(ID_ATTR));
 							$pathId = $jsFile->getAttribute(PATH_ID_ATTR);
 							if (array_key_exists($pathId, $this->m_jsPaths) == true)
 							{
@@ -219,7 +219,7 @@ namespace afm
 					{
 						foreach ($cssFiles->getElements(FILE_ELEMENT) as $cssFile)
 						{
-//							error_log('CSS File: ' . $cssFile->getAttribute(ID_ATTR));
+							// error_log('CSS File: ' . $cssFile->getAttribute(ID_ATTR));
 							$pathId = $cssFile->getAttribute(PATH_ID_ATTR);
 							if (array_key_exists($pathId, $this->m_cssPaths) == true)
 							{

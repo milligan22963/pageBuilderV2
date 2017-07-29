@@ -151,7 +151,7 @@ namespace afm
 		// DWM - will need to add in translation
 		$pageObject->setTitle($settingsManager->getSetting(SITE_TITLE) . ' - Administration');
 		$pageObject->requireCSS('SITE');
-		$pageObject->addCSSFile('css/admin.css');
+		$pageObject->addCSSFile('css/admin.css', SITE_FILE);
 		
 		$systemObj->loadSite();
 		

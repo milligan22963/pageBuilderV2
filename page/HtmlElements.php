@@ -667,7 +667,7 @@ namespace afm
 	{
 	    public function __construct($imageId)
 	    {
-		    parent::__construct($id);
+		    parent::__construct($imageId);
 		    
 		    $this->setElementName(IMAGE_ELEMENT);
 	    }

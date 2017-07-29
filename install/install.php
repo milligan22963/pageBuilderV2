@@ -29,8 +29,8 @@ include_once($installDir . 'verifydb.php');
 $pageObject = new afm\HtmlPage();
 
 $pageObject->setTitle("Installation");
-$pageObject->addCSSFile("css/install.css");
-$pageObject->addJSFile("js/install.js");
+$pageObject->addCSSFile("css/install.css", SITE_FILE);
+$pageObject->addJSFile("js/install.js", SITE_FILE);
 
 // need a database type selection along w/ username and password
 // need to collect some other data, if db already exists, ensure we can wack it

@@ -41,25 +41,19 @@ input.simple_blog_text_entry
     min-height: 8em;
 }
 
-.editor
+div#blog_comment_editor,
+div#blog_entry_editor
 {
-    margin: 10px;
+    background: white;
+    min-height: 200px;
+}
+div#blog_comment_editor_toolbar,
+div#blog_entry_editor_toolbar
+{
+    background: white:
 }
 
-div#simple_blog_create_dialog_titlediv,
-div#simple_blog_create_dialog_summarydiv,
-div#simple_blog_edit_dialog_titlediv,
-div#simple_blog_edit_dialog_summarydiv
+.blog_toolbar
 {
-    width: 100%;
-}
-
-input#simple_blog_create_dialog_title,
-input#simple_blog_create_dialog_summary,
-input#simple_blog_edit_dialog_title,
-input#simple_blog_edit_dialog_summary
-{
-    display: block;
-    width: 100%;
-    margin-left: 5px;
+    float: right;
 }

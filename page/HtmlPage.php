@@ -62,18 +62,54 @@
 			$scriptManager->requireStyle($cssId);			
 		}
 		
-        public function addCSSFile($cssFile)
+        public function addCSSFile($cssFile, $type)
         {
-            $displayElement = new CssLinkObject($cssFile);
+            $addIt = true;
 
-            $this->addDisplayElement(CSS_FILE, $displayElement);
+            $currentCSSFiles = $this->getDisplayElements(CSS_FILE . $type);
+            if ($currentCSSFiles != null)
+            {
+                foreach ($currentCSSFiles as $currentFile)
+                {
+                    if ($currentFile->getAttribute(HREF) == $cssFile)
+                    {
+                        $addIt = false;
+                        break;
+                    }
+                }
+            }
+
+            if ($addIt == true)
+            {
+                $displayElement = new CssLinkObject($cssFile);
+
+                $this->addDisplayElement(CSS_FILE . $type, $displayElement);
+            }
         }
 
-        public function addJSFile($jsFile)
+        public function addJSFile($jsFile, $type)
         {
-            $displayElement = new JSFileObject($jsFile);
+            $addIt = true;
 
-            $this->addDisplayElement(JS_FILE, $displayElement);
+            $currentJSFiles = $this->getDisplayElements(JS_FILE . $type);
+            if ($currentJSFiles != null)
+            {
+                foreach ($currentJSFiles as $currentFile)
+                {
+                    if ($currentFile->getAttribute(SOURCE) == $jsFile)
+                    {
+                        $addIt = false;
+                        break;
+                    }
+                }
+            }
+
+            if ($addIt == true)
+            {
+                $displayElement = new JSFileObject($jsFile);
+
+                $this->addDisplayElement(JS_FILE . $type, $displayElement);
+            }
         }
 
         public function addInlineCSS($cssData)
@@ -304,9 +340,12 @@
             $renderedPage .= '<meta charset="ISO-8859-1">';
 
             // Links?
-            $renderedPage .= $this->renderContent(CSS_FILE);
+            foreach (array(SITE_FILE, THEME_FILE, EXT_FILE) as $fileType)
+            {
+                $renderedPage .= $this->renderContent(CSS_FILE . $fileType);
 
-            $renderedPage .= $this->renderContent(JS_FILE);
+                $renderedPage .= $this->renderContent(JS_FILE . $fileType);
+            }
 
             // Inline css/js?
             if ($this->m_inlineCSS != null)

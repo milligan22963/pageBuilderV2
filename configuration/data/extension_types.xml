@@ -26,6 +26,10 @@
 		  <data name="active" value="true" />
 	  </dataset>
 	  <dataset>
+		  <data name="type" value="game" />
+		  <data name="active" value="true" />
+	  </dataset>
+	  <dataset>
 		  <data name="type" value="custom" />
 		  <data name="active" value="true" />
 	  </dataset>

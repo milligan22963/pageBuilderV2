@@ -30,12 +30,23 @@
 			<p:file pathId="3RDPARTY" id="SMDE" codefile="simplemde/simplemde.min.js">
 				<p:requires id="SMDE" type="css"/>
 			</p:file>
+			<p:file pathId="3RDPARTY" id="QUILL" codefile="quill/quill.min.js">
+				<p:requires id="QUILL" type="css"/>
+				<p:requires id="QUILLSNOW" type="css"/>
+			</p:file>
+			<p:file pathId="SITE" id="EDITOR" codefile="editor.js">
+				<p:requires id="INHERITANCE" type="js"/>
+				<p:requires id="HTML_ELEMENTS" type="js"/>
+				<p:requires id="QUILL" type="js"/>
+			</p:file>
 		</p:js>
 		<p:css>
 			<p:file pathId="SITE" id="SITE" codefile="site.css"/>
 			<p:file pathId="SITE" id="HTML_ELEMENTS" codefile="htmlelements.css"/>
-			<p:file pathId="SITE" id="DIALOG" codefile="dialog.css"/>			
+			<p:file pathId="SITE" id="DIALOG" codefile="dialog.css"/>
 			<p:file pathId="3RDPARTY" id="SMDE" codefile="simplemde/simplemde.min.css"/>
+			<p:file pathId="3RDPARTY" id="QUILL" codefile="quill/quill.core.css"/>
+			<p:file pathId="3RDPARTY" id="QUILLSNOW" codefile="quill/quill.snow.css"/>
 		</p:css>
 	</p:files>
 </p:scripts>
