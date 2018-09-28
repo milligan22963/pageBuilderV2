@@ -4,8 +4,10 @@
 	  <description>
 		  A simple login widget for the system.
 	  </description>
-	  <code name="Login.php" class="LoginWidget">
+	  <code name="login.php" class="LoginWidget">
 		  <settings>
+            <setting name="login_image" value="{path}images/login.png"/>
+            <setting name="show_welcome" value="true"/>
 		  </settings>
 	  </code>
 	  <author name="AFM Software" website="www.afmsoftware.com"></author>

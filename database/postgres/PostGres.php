@@ -109,8 +109,8 @@ namespace afm
 		 */
 		protected function getDBCreateStatement($databaseName)
 		{
-			$createCommand = "CREATE DATABASE " . $databaseName . " WITH OWNER = " . $this->getUserName() . " ENCODING = 'UTF8'";
-			$createCommand .= " LC_COLLATE = 'C' LC_CTYPE = 'C' CONNECTION LIMIT = -1;";
+            $createCommand = "CREATE DATABASE " . $databaseName . " WITH OWNER = " . $this->getUserName();
+            $createCommand .= " ENCODING = 'UTF8' CONNECTION LIMIT = -1;";
 
 			return $createCommand;
 		}
