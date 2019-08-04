@@ -1,13 +1,20 @@
 # pageBuilderV2
 My new take on a content management system.  Main page is: .../index.php
 
-Currently requires a web server (tested w/ Apache2), PHP, and Postgres.  I decided to start this one with Postgres with a plan to add MySQL afterwards.
+Currently requires a web server (tested w/ Apache2), PHP, and Postgres.  I decided to start this one with Postgres with a plan to add MySQL afterwards.  In addition to the three listed above, you will also need to install:
+   sudo apt-get install php-pgsql
+   sudo apt-get install php-dom
+   
+restart apache after doing that:
+   sudo systemctl restart apache2
+   
 
 To get started, synch up the project and browse to: .../install/install.php
 On this page, enter your postgres user name/pwd and what database you would like to use.
 This will access a postgres database and create it as needed.  While I intend to support MySQL, at the moment, just postgres is supported.
 
-All base tables will be added and the user name / password will be placed in a hidden file .htignore which should by default not be served up by Apache.  Other web servers may handle things differently.  Given this, the apache user will need write access to the configuration folder in order to create this file.
+All base tables will be added and the user name / password will be placed in a hidden file .htignore which should by default not be served up by Apache.  Other web servers may handle things differently.  Given this, the apache user will need write access to the configuration folder in order to create this file.  This can be done on Linux using:
+     sudo chown www-data configuration
 
 Unlike my older version of pageBuilder, this one has an xml file definition of tables which auto loads and creates the database tables as defined, there is also a dependency option so if a table requires another table it will wait until said table is created before creating that one.
 
