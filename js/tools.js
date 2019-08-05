@@ -522,7 +522,7 @@ function transferJSON(isPost, targetUrl, callback)
 			{
 				if (this.status == 200)
 				{
-					console.log('Response: ' + this.responseText);
+					//console.log('Response: ' + this.responseText);
 					var data = JSON.parse(this.responseText);
 					
 					if (thisObj.callback != null)
