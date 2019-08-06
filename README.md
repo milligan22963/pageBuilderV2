@@ -15,6 +15,8 @@ This will access a postgres database and create it as needed.  While I intend to
 
 All base tables will be added and the user name / password will be placed in a hidden file .htignore which should by default not be served up by Apache.  Other web servers may handle things differently.  Given this, the apache user will need write access to the configuration folder in order to create this file.  This can be done on Linux using:
      sudo chown www-data configuration
+For information regarding configuring postgresql for first use: https://stackoverflow.com/questions/1471571/how-to-configure-postgresql-for-the-first-time
+
 
 Unlike my older version of pageBuilder, this one has an xml file definition of tables which auto loads and creates the database tables as defined, there is also a dependency option so if a table requires another table it will wait until said table is created before creating that one.
 
