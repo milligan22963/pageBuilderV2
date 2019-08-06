@@ -305,6 +305,10 @@
             $renderedPage = "<!DOCTYPE html>" . PHP_EOL . '<html lang="en-us">' . PHP_EOL . "<head>" . PHP_EOL;
 //            $renderedPage = '<html lang="en-us">' . PHP_EOL . "<head>" . PHP_EOL;
 
+            // for testing
+            $renderedPage .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
+            $renderedPage .= '<meta charset="UTF-8">';
+
             /*--------------------------------------------------------------------
                 Dump title, meta data, css links, js links etc.
             ------------------------------------------------------------------*/
@@ -334,10 +338,6 @@
 
             // add meta data 
             $renderedPage .= $this->renderContent(META_DATA);
-
-            // for testing
-            $renderedPage .= '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-            $renderedPage .= '<meta charset="ISO-8859-1">';
 
             // Links?
             foreach (array(SITE_FILE, THEME_FILE, EXT_FILE) as $fileType)

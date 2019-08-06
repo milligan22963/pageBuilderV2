@@ -1078,6 +1078,7 @@ namespace afm
 			$this->m_validEncodings[] = self::$sm_formUrlEncoded;
 			$this->m_validEncodings[] = self::$sm_formMultipart;
 			$this->m_validEncodings[] = self::$sm_textPlain;
+			$this->addAttribute('accept-charset', "utf-8");
 	    }
 	    
 	    public function setEncodingType($encodingType)

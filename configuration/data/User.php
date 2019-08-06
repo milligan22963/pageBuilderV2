@@ -144,7 +144,8 @@
 		{
 			$valid = false;
 
-//			error_log("Validating password for: " . $userName);
+			//error_log("Validating password for: " . $userName);
+			//error_log("Validating password: " . $textPassword);
 
 			// verify that the user supplied password matches the stored hashed password
 			$valid = \password_verify($textPassword, trim($this->getPassword()));
