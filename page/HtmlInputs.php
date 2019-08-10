@@ -134,8 +134,8 @@ namespace afm
 	    {
 		    $this->addAttribute(ONCLICK, $handler);
 	    }
-    }
-    
+	}
+	    
     class KeygenInput extends HtmlElement
     {
 	    public function __construct($id)
@@ -397,6 +397,24 @@ namespace afm
 			{
 				$this->removeAttribute('checked');
 			}
+		}
+	}
+
+	class SwitchInput extends LabelElement
+	{
+		public function __construct($id)
+		{
+			parent::__construct($id);
+
+			$this->addClass("switch");
+
+			$childElement = new CheckboxInput($id . "_check");
+			$this->addChildElement($childElement);
+
+			$childElement = new SpanElement($id . "_span");
+			$childElement->addClass('slider');
+			$childElement->addClass('round');
+			$this->addChildElement($childElement);
 		}
 	}
 

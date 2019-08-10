@@ -10,7 +10,8 @@ namespace afm
     include_once('Element.php');
 
     // local defines
-    define('LABEL_ELEMENT', "label");
+	define('LABEL_ELEMENT', "label");
+	define('SPAN_ELEMENT', "span");
     define('DIV_ELEMENT', "div");
     define('SECTION_ELEMENT', "section");
     define('ASIDE_ELEMENT', "aside");
@@ -542,7 +543,17 @@ namespace afm
 	    {
 		    $this->addAttribute(FOR_ATTR, $elementId);
 	    }
-    }
+	}
+	
+	class SpanElement extends HtmlElement
+	{
+		public function __construct($id)
+		{
+			parent::__construct($id);
+
+			$this->setElementName(SPAN_ELEMENT);
+		}
+	}
     
     class DivElement extends HtmlElement
     {
