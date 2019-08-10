@@ -398,11 +398,16 @@ namespace afm
 				$this->removeAttribute('checked');
 			}
 		}
+
+		public function addClickHandler($handler)
+	    {
+		    $this->addAttribute(ONCLICK, $handler);
+	    }
 	}
 
 	class SwitchInput extends LabelElement
 	{
-		public function __construct($id)
+		public function __construct($id, $handler = NULL)
 		{
 			parent::__construct($id);
 
@@ -410,6 +415,10 @@ namespace afm
 
 			$childElement = new CheckboxInput($id . "_check");
 			$this->addChildElement($childElement);
+			if ($handler != NULL)
+			{
+				$childElement->addClickHandler($handler);
+			}
 
 			$childElement = new SpanElement($id . "_span");
 			$childElement->addClass('slider');
